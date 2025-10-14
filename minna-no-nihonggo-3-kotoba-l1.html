@@ -674,7 +674,7 @@
             </div>
             
             <button onclick="showAllAnswers()" id="action-button" class="action-button">
-                Selesaikan Kuis
+                Selesaikan Quiz!
             </button>
         </div>
 
@@ -1099,7 +1099,7 @@
             document.getElementById('completion-notification').classList.add('hidden');
             
             const actionButton = document.getElementById('action-button');
-            actionButton.textContent = "Tampilkan Jawaban (Selesai)";
+            actionButton.textContent = "Selesaikan Quiz!";
             actionButton.onclick = showAllAnswers;
             actionButton.disabled = false;
             actionButton.classList.remove('opacity-50', 'cursor-not-allowed');
