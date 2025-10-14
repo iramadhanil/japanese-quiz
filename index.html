@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語学習 - Japanese Vocabulary Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* Animated Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #0f2847, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Geometric Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            top: 10%;
+            left: 10%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            top: 60%;
+            left: 70%;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff0080, #cc0066);
+            top: 30%;
+            left: 80%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            top: 70%;
+            left: 15%;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #a000ff, #7700cc);
+            top: 15%;
+            left: 50%;
+            border-radius: 20px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+            }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Particle system */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: particleRise 15s infinite ease-in;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        @keyframes particleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            animation: slideDown 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: headerShine 3s infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--card-index) * 0.1s);
+            opacity: 0;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .category-card:nth-child(1) { --card-index: 0; }
+        .category-card:nth-child(2) { --card-index: 1; }
+        .category-card:nth-child(3) { --card-index: 2; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Tech corner accents */
+        .category-card::before,
+        .category-card::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #00d4ff;
+            transition: all 0.3s ease;
+        }
+
+        .category-card::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .category-card::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(0, 212, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .category-card:hover::before,
+        .category-card:hover::after {
+            width: 50px;
+            height: 50px;
+            border-color: #00ff88;
+        }
+
+        .category-card.active {
+            transform: scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 212, 255, 0.4);
+            border-color: #00d4ff;
+        }
+
+        /* Scan line effect */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: scan 3s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .card-header {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.6rem;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+        }
+
+        /* Button container - hidden by default */
+        .sub-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card.active .sub-menu {
+            max-height: 800px;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .menu-button {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #0f2847 0%, #1a1f3a 100%);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideInButton 0.5s ease forwards;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .category-card.active .menu-button:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .category-card.active .menu-button:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideInButton {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-button:hover::before {
+            left: 100%;
+        }
+
+        .menu-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 212, 255, 0.4);
+            border-color: #00d4ff;
+            background: linear-gradient(135deg, #0f2847 0%, #0a0e27 100%);
+        }
+
+        .menu-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Button icons and text */
+        .button-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .button-icon {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5));
+        }
+
+        /* Expandable Menu Button */
+        .expandable-menu-button {
+            display: block;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #0f2847 0%, #1a1f3a 100%);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            cursor: pointer;
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideInButton 0.5s ease forwards;
+        }
+
+        .category-card.active .expandable-menu-button:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .category-card.active .expandable-menu-button:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .expandable-menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .expandable-menu-button:hover::before {
+            left: 100%;
+        }
+
+        .expandable-menu-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 212, 255, 0.4);
+            border-color: #00d4ff;
+            background: linear-gradient(135deg, #0f2847 0%, #0a0e27 100%);
+        }
+
+        .expandable-menu-button.expanded {
+            background: linear-gradient(135deg, #1a1f3a 0%, #0f2847 100%);
+            border-color: #00ff88;
+        }
+
+        /* Chevron indicator */
+        .expandable-menu-button .button-content::after {
+            content: '▼';
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .expandable-menu-button.expanded .button-content::after {
+            transform: rotate(180deg);
+        }
+
+        /* Lessons submenu */
+        .lessons-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            margin-top: 0.5rem;
+        }
+
+        .lessons-submenu.expanded {
+            max-height: 500px;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .lesson-link {
+            text-decoration: none;
+            color: #00d4ff;
+            background: rgba(15, 40, 71, 0.8);
+            padding: 0.8rem 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            opacity: 0;
+            animation: fadeInLesson 0.3s ease forwards;
+        }
+
+        .lessons-submenu.expanded .lesson-link:nth-child(1) { animation-delay: 0.05s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(2) { animation-delay: 0.08s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(3) { animation-delay: 0.11s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(4) { animation-delay: 0.14s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(5) { animation-delay: 0.17s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(6) { animation-delay: 0.20s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(7) { animation-delay: 0.23s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(8) { animation-delay: 0.26s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(9) { animation-delay: 0.29s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(10) { animation-delay: 0.32s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(11) { animation-delay: 0.35s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(12) { animation-delay: 0.38s; }
+        .lessons-submenu.expanded .lesson-link:nth-child(13) { animation-delay: 0.41s; }
+
+        @keyframes fadeInLesson {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lesson-link:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Click indicator */
+        .click-indicator {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: #00d4ff;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .category-card.active .click-indicator {
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+
+            .category-card {
+                padding: 1.5rem;
+            }
+
+            header {
+                padding: 2rem 1rem 1.5rem;
+            }
+
+            .lessons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2rem;
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Accessibility */
+        .category-card:focus {
+            outline: 3px solid rgba(0, 212, 255, 0.5);
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <h1>日本語学習クイズ</h1>
+        <p>語彙と文法を楽しく学びましょう！</p>
+    </header>
+
+    <main>
+        <!-- Card 1: Minna No Nihonggo 3 -->
+        <div class="category-card" tabindex="0" role="button" aria-expanded="false">
+            <div class="scan-line"></div>
+            <div class="card-header">
+                <div class="card-icon">📚</div>
+                <h2>Minna No Nihonggo 3</h2>
+            </div>
+            <div class="sub-menu">
+                <div class="menu-buttons">
+                    <div class="expandable-menu-button" data-target="minna-kotoba-lessons">
+                        <span class="button-content">
+                            <span class="button-icon">📝</span>
+                            <span>語彙 (Vocabulary)</span>
+                        </span>
+                    </div>
+                    <div class="lessons-submenu" id="minna-kotoba-lessons">
+                        <div class="lessons-grid">
+                            <a href="minna-no-nihonggo-3-kotoba-l1.html" class="lesson-link">L1</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l2.html" class="lesson-link">L2</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l3.html" class="lesson-link">L3</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l4.html" class="lesson-link">L4</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l5.html" class="lesson-link">L5</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l6.html" class="lesson-link">L6</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l7.html" class="lesson-link">L7</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l8.html" class="lesson-link">L8</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l9.html" class="lesson-link">L9</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l10.html" class="lesson-link">L10</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l11.html" class="lesson-link">L11</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l12.html" class="lesson-link">L12</a>
+                            <a href="minna-no-nihonggo-3-kotoba-l13.html" class="lesson-link">L13</a>
+                        </div>
+                    </div>
+
+                    <div class="expandable-menu-button" data-target="minna-bunpo-lessons">
+                        <span class="button-content">
+                            <span class="button-icon">📖</span>
+                            <span>文法 (Grammar)</span>
+                        </span>
+                    </div>
+                    <div class="lessons-submenu" id="minna-bunpo-lessons">
+                        <div class="lessons-grid">
+                            <a href="minna-no-nihonggo-3-bunpo-l1.html" class="lesson-link">L1</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l2.html" class="lesson-link">L2</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l3.html" class="lesson-link">L3</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l4.html" class="lesson-link">L4</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l5.html" class="lesson-link">L5</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l6.html" class="lesson-link">L6</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l7.html" class="lesson-link">L7</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l8.html" class="lesson-link">L8</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l9.html" class="lesson-link">L9</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l10.html" class="lesson-link">L10</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l11.html" class="lesson-link">L11</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l12.html" class="lesson-link">L12</a>
+                            <a href="minna-no-nihonggo-3-bunpo-l13.html" class="lesson-link">L13</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="click-indicator">👆 クリックしてください</div>
+        </div>
+
+        <!-- Card 2: Sou Matome -->
+        <div class="category-card" tabindex="0" role="button" aria-expanded="false">
+            <div class="scan-line"></div>
+            <div class="card-header">
+                <div class="card-icon">📕</div>
+                <h2>Sou Matome</h2>
+            </div>
+            <div class="sub-menu">
+                <div class="menu-buttons">
+                    <div class="expandable-menu-button" data-target="sou-kotoba-lessons">
+                        <span class="button-content">
+                            <span class="button-icon">📝</span>
+                            <span>語彙 (Vocabulary)</span>
+                        </span>
+                    </div>
+                    <div class="lessons-submenu" id="sou-kotoba-lessons">
+                        <div class="lessons-grid">
+                            <a href="sou-matome-kotoba-w1.html" class="lesson-link">W1</a>
+                            <a href="sou-matome-kotoba-w2.html" class="lesson-link">W2</a>
+                            <a href="sou-matome-kotoba-w3.html" class="lesson-link">W3</a>
+                            <a href="sou-matome-kotoba-w4.html" class="lesson-link">W4</a>
+                            <a href="sou-matome-kotoba-w5.html" class="lesson-link">W5</a>
+                            <a href="sou-matome-kotoba-w6.html" class="lesson-link">W6</a>
+                            <a href="sou-matome-kotoba-w7.html" class="lesson-link">W7</a>
+                            <a href="sou-matome-kotoba-w8.html" class="lesson-link">W8</a>
+                            <a href="sou-matome-kotoba-w9.html" class="lesson-link">W9</a>
+                            <a href="sou-matome-kotoba-w10.html" class="lesson-link">W10</a>
+                            <a href="sou-matome-kotoba-w11.html" class="lesson-link">W11</a>
+                            <a href="sou-matome-kotoba-w12.html" class="lesson-link">W12</a>
+                            <a href="sou-matome-kotoba-w13.html" class="lesson-link">W13</a>
+                        </div>
+                    </div>
+
+                    <div class="expandable-menu-button" data-target="sou-bunpo-lessons">
+                        <span class="button-content">
+                            <span class="button-icon">📖</span>
+                            <span>文法 (Grammar)</span>
+                        </span>
+                    </div>
+                    <div class="lessons-submenu" id="sou-bunpo-lessons">
+                        <div class="lessons-grid">
+                            <a href="sou-matome-bunpo-w1.html" class="lesson-link">W1</a>
+                            <a href="sou-matome-bunpo-w2.html" class="lesson-link">W2</a>
+                            <a href="sou-matome-bunpo-w3.html" class="lesson-link">W3</a>
+                            <a href="sou-matome-bunpo-w4.html" class="lesson-link">W4</a>
+                            <a href="sou-matome-bunpo-w5.html" class="lesson-link">W5</a>
+                            <a href="sou-matome-bunpo-w6.html" class="lesson-link">W6</a>
+                            <a href="sou-matome-bunpo-w7.html" class="lesson-link">W7</a>
+                            <a href="sou-matome-bunpo-w8.html" class="lesson-link">W8</a>
+                            <a href="sou-matome-bunpo-w9.html" class="lesson-link">W9</a>
+                            <a href="sou-matome-bunpo-w10.html" class="lesson-link">W10</a>
+                            <a href="sou-matome-bunpo-w11.html" class="lesson-link">W11</a>
+                            <a href="sou-matome-bunpo-w12.html" class="lesson-link">W12</a>
+                            <a href="sou-matome-bunpo-w13.html" class="lesson-link">W13</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="click-indicator">👆 クリックしてください</div>
+        </div>
+
+        <!-- Card 3: New Things -->
+        <div class="category-card" tabindex="0" role="button" aria-expanded="false">
+            <div class="scan-line"></div>
+            <div class="card-header">
+                <div class="card-icon">✨</div>
+                <h2>New Things</h2>
+            </div>
+            <div class="sub-menu">
+                <div class="menu-buttons">
+                    <a href="new-things-kotoba.html" class="menu-button">
+                        <span class="button-content">
+                            <span class="button-icon">📝</span>
+                            <span>語彙 (Vocabulary)</span>
+                        </span>
+                    </a>
+                    <a href="new-things-bunpo.html" class="menu-button">
+                        <span class="button-content">
+                            <span class="button-icon">📖</span>
+                            <span>文法 (Grammar)</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="click-indicator">👆 クリックしてください</div>
+        </div>
+    </main>
+
+    <footer>
+        <p>頑張ってください！ • &copy; 2024 Your Personal Japanese Learning Site</p>
+    </footer>
+
+    <script>
+        // Create particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Card interaction with ripple effect
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.closest('.expandable-menu-button') || 
+                    e.target.closest('.lesson-link') || 
+                    e.target.closest('.menu-button')) {
+                    return;
+                }
+
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+                
+                const wasActive = this.classList.contains('active');
+                
+                document.querySelectorAll('.category-card').forEach(c => {
+                    c.classList.remove('active');
+                    c.setAttribute('aria-expanded', 'false');
+                    c.querySelectorAll('.expandable-menu-button').forEach(btn => {
+                        btn.classList.remove('expanded');
+                    });
+                    c.querySelectorAll('.lessons-submenu').forEach(submenu => {
+                        submenu.classList.remove('expanded');
+                    });
+                });
+                
+                if (!wasActive) {
+                    this.classList.add('active');
+                    this.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Expandable menu button handler
+        document.querySelectorAll('.expandable-menu-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                const targetId = this.getAttribute('data-target');
+                const targetSubmenu = document.getElementById(targetId);
+                
+                this.classList.toggle('expanded');
+                targetSubmenu.classList.toggle('expanded');
+            });
+        });
+
+        // Parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.category-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            cards.forEach(card => {
+                const speed = 5;
+                const xOffset = (x - 0.5) * speed;
+                const yOffset = (y - 0.5) * speed;
+                
+                if (!card.classList.contains('active')) {
+                    card.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

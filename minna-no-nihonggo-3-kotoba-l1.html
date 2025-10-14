@@ -1,0 +1,602 @@
+<!-- Tambahkan di bagian atas konten kuis -->
+<a href="index.html" style="display: inline-block; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #0f2847, #1a1f3a); color: white; text-decoration: none; border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.3); margin-bottom: 2rem;">
+  ← Kembali ke Homepage
+</a>
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Kosakata Jepang Interaktif</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Menggunakan font Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #eef2ff; /* Latar belakang lebih lembut (indigo-50) */
+        }
+        /* Transisi halus untuk semua kartu (untuk hover) */
+        .quiz-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        /* Custom class untuk input yang sudah benar (hijau lembut) */
+        .input-correct {
+            border-color: #059669 !important; /* green-600 */
+            background-color: #f0fff4 !important; /* green-50 */
+            color: #064e3b !important; /* green-900 */
+            transition: all 0.2s ease-in-out; 
+        }
+        /* Custom class untuk input yang salah (merah lembut) */
+        .input-incorrect {
+            border-color: #f87171 !important; /* red-400 */
+            background-color: #fef2f2 !important; /* red-50 */
+            transition: all 0.2s ease-in-out; 
+        }
+        /* Custom class untuk kartu yang sudah benar */
+        .card-correct {
+            background-color: #e0e7ff; /* indigo-200, lebih cerah */
+            border-color: #6366f1 !important; /* indigo-500 */
+            /* Bayangan ungu yang halus untuk kartu yang benar */
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.15); 
+        }
+        /* Style untuk container utama kuis */
+        .quiz-container {
+            display: grid;
+            gap: 1.5rem; /* gap-6 */
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        /* Responsiveness untuk tablet dan desktop */
+        @media (min-width: 640px) {
+            .quiz-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            .quiz-container {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-10 pb-6 border-b-2 border-indigo-300">
+            <h1 class="text-4xl font-extrabold text-indigo-800 mb-2">Kuis Kosakata Jepang Interaktif</h1>
+            <p class="text-gray-600">Tuliskan Hiragana (Cara Baca) yang benar. Gunakan tombol di bawah untuk melihat rekapitulasi.</p>
+            
+            <!-- Kotak Ringkasan & Tombol Aksi -->
+            <div class="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-white rounded-xl shadow-md border border-indigo-200">
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <div class="text-center">
+                        <p id="correct-count-display" class="text-3xl font-extrabold text-green-600">0</p>
+                        <p class="text-sm font-medium text-gray-500">BENAR</p>
+                    </div>
+                    <div class="text-center">
+                        <p id="empty-count-display" class="text-3xl font-extrabold text-red-500">0</p>
+                        <p class="text-sm font-medium text-gray-500">KOSONG</p>
+                    </div>
+                    <div class="text-center">
+                        <!-- Nilai Total akan diisi oleh JavaScript -->
+                        <p id="total-count-display" class="text-3xl font-extrabold text-indigo-600">0</p>
+                        <p class="text-sm font-medium text-gray-500">TOTAL</p>
+                    </div>
+                </div>
+                
+                <button onclick="showAllAnswers()" id="action-button" class="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150 shadow-lg hover:shadow-xl">
+                    Tampilkan Jawaban (Selesai)
+                </button>
+            </div>
+            
+            <!-- PENGGANTI MODAL: Kotak Pemberitahuan Selesai -->
+            <div id="completion-notification" class="hidden mt-6 p-4 bg-yellow-100 rounded-lg border-l-4 border-yellow-500 shadow-md transition duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-semibold text-yellow-800">Kuis Selesai! Skor Anda:</p>
+                        <p class="text-lg font-bold text-gray-800">
+                            <span id="notification-correct-count" class="text-green-600">0</span> Benar 
+                            dari 
+                            <span id="notification-total-count">0</span> Kata. 
+                            Anda sekarang dapat meninjau semua jawaban di bawah.
+                        </p>
+                    </div>
+                    <!-- Tombol Ulangi Kuis dipindahkan ke bawah -->
+                </div>
+            </div>
+            <!-- Akhir PENGGANTI MODAL -->
+
+        </header>
+        
+        <div id="quiz-container" class="quiz-container">
+            <!-- Kartu Kosakata akan di-inject di sini oleh JavaScript -->
+        </div>
+
+        <!-- TOMBOL ULANGI KUIS DI BAGIAN BAWAH -->
+        <div id="bottom-action-container" class="mt-10 mb-10 text-center hidden">
+            <button onclick="resetQuiz()" id="reset-button-bottom" class="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-xl rounded-xl hover:from-green-600 hover:to-emerald-700 transition duration-300 shadow-xl transform hover:scale-105">
+                Ulangi Kuis Sekarang
+            </button>
+        </div>
+        <!-- AKHIR TOMBOL BAWAH -->
+
+    </div>
+
+    <script>
+        // Data Kosakata BARU (Tepat 163 Entri, Diambil HANYA dari CSV terakhir yang diberikan)
+        const MASTER_VOCABULARY_DATA = [
+            // --- KOSAKATA L3 ---
+            { kanji: 'インタビューする', hiragana: 'インタビューする', arti: 'wawancara', english: 'to interview' },
+            { kanji: '担当する', hiragana: 'たんとうする', arti: 'bertanggung jawab atas, menjadi penanggung jawab', english: 'to be in charge of, to be responsible for' },
+            { kanji: 'アルバイト先', hiragana: 'アルバイトさき', arti: 'tempat kerja paruh waktu', english: 'part-time workplace' },
+            { kanji: '〜先', hiragana: '〜さき', arti: 'tempat', english: 'place, destination' },
+            { kanji: '店長', hiragana: 'てんちょう', arti: 'manajer toko', english: 'store manager' },
+            { kanji: '研修', hiragana: 'けんしゅう', arti: 'pelatihan', english: 'training, internship' },
+            { kanji: '話し合う', hiragana: 'はなしあう', arti: 'berdiskusi', english: 'to discuss, to talk together' },
+            { kanji: '通勤する', hiragana: 'つうきんする', arti: 'pulang-pergi kerja', english: 'to commute to work' },
+            { kanji: 'これまで', hiragana: 'これまで', arti: 'sampai sekarang', english: 'until now, so far' },
+            { kanji: '減らす', hiragana: 'へらす', arti: 'mengurangi', english: 'to reduce, to decrease' },
+            { kanji: '引っ越す', hiragana: 'ひっこす', arti: 'pindah (rumah)', english: 'to move (house)' },
+            { kanji: '〜か国', hiragana: '〜かこく', arti: '(sejumlah) negara', english: '(a number of) countries' },
+            { kanji: '家庭', hiragana: 'かてい', arti: 'rumah tangga, rumah, keluarga', english: 'household, home, family' },
+            { kanji: '事情', hiragana: 'じじょう', arti: 'keadaan, alasan', english: 'circumstances, reasons' },
+            { kanji: '幼稚園', hiragana: 'ようちえん', arti: 'taman kanak-kanak, prasekolah', english: 'kindergarten, preschool' },
+            { kanji: '昼寝する', hiragana: 'ひるねする', arti: 'tidur siang', english: 'to take a nap' },
+            { kanji: '帰国する', hiragana: 'きこくする', arti: 'kembali ke negara asal', english: 'to return to one\'s home country' },
+            { kanji: '来社', hiragana: 'らいしゃ', arti: 'datang mengunjungi (perusahaan/kantor)', english: 'visit to a company/office' },
+            { kanji: '新製品', hiragana: 'しんせいひん', arti: 'produk baru', english: 'new product' },
+            { kanji: '新〜', hiragana: 'しん〜', arti: 'baru', english: 'new ~' },
+            { kanji: '発表する', hiragana: 'はっぴょうする', arti: 'mengumumkan', english: 'to announce, to present' },
+            { kanji: '間に合う', hiragana: 'まにあう', arti: 'tepat waktu', english: 'to be on time' },
+            { kanji: '開発する', hiragana: 'かいはつする', arti: 'mengembangkan', english: 'to develop, to invent' },
+            { kanji: '進める', hiragana: 'すすめる', arti: 'memajukan', english: 'to advance, to promote' },
+            { kanji: 'アンケート', hiragana: 'アンケート', arti: 'kuesioner', english: 'questionnaire' },
+            { kanji: '助かる', hiragana: 'たすかる', arti: 'tertolog, terbantu', english: 'to be saved, to be helped' },
+            { kanji: '参加者', hiragana: 'さんかしゃ', arti: 'peserta', english: 'participant' },
+            { kanji: '集まる', hiragana: 'あつまる', arti: 'berkumpul', english: 'to gather, to collect' },
+            { kanji: '留学する', hiragana: 'りゅうがくする', arti: 'belajar di luar negeri', english: 'to study abroad' },
+            { kanji: '都合', hiragana: 'つごう', arti: 'kenyamanan, keadaan, jadwal', english: 'convenience, circumstances, schedule' },
+            
+            // --- KOSAKATA L4 ---
+            { kanji: 'しつこい', hiragana: 'しつこい', arti: 'gigih, berulang-ulang', english: 'persistent, repetitive' },
+            { kanji: '全員', hiragana: 'ぜんいん', arti: 'semua orang', english: 'everyone, all members' },
+            { kanji: '数日', hiragana: 'すうじつ', arti: 'beberapa hari', english: 'several days' },
+            { kanji: '親戚', hiragana: 'しんせき', arti: 'kerabat', english: 'relative' },
+            { kanji: '接する', hiragana: 'せっする', arti: 'terhubung, menawarkan', english: 'to connect, to offer' },
+            { kanji: '申し出る', hiragana: 'もうしでる', arti: 'menawarkan, mengusulkan', english: 'to offer, to propose' },
+            { kanji: '結局', hiragana: 'けっきょく', arti: 'pada akhirnya', english: 'in the end, after all' },
+            { kanji: 'すぐさま', hiragana: 'すぐさま', arti: 'segera', english: 'immediately, instantly' },
+            { kanji: 'そば', hiragana: 'そば', arti: 'di samping, di sebelah', english: 'beside, next to' },
+            { kanji: '取り付ける', hiragana: 'とりつける', arti: 'memasang', english: 'to install, to attach' },
+            { kanji: '有益', hiragana: 'ゆうえき', arti: 'bermanfaat', english: 'beneficial, profitable' },
+            { kanji: '出席者', hiragana: 'しゅっせきしゃ', arti: 'peserta', english: 'attendee, participant' },
+            { kanji: '料金', hiragana: 'りょうきん', arti: 'biaya, ongkos', english: 'fee, charge' },
+            
+            // --- UNGKAPAN & EKSPRESI (Disempurnakan untuk kuis) ---
+            { kanji: '〜させていただきます', hiragana: '〜させていただきます', arti: 'mengizinkan saya untuk', english: 'allow me to (humble expression)' },
+            { kanji: 'お邪魔します', hiragana: 'おじゃまします', arti: 'permisi, maaf mengganggu (saat masuk)', english: 'Excuse me for intruding (when entering)' },
+            { kanji: 'よろしかったでしょうか', hiragana: 'よろしかったでしょうか', arti: 'apakah (jadwal/keputusan) sudah benar? (sangat sopan)', english: 'Was (the decision) correct? (very polite check)' },
+            { kanji: 'お忙しいところ', hiragana: 'おいそがしいところ', arti: 'Saat Anda sibuk (ungkapan permulaan yang sopan)', english: 'While you are busy (polite opening phrase)' },
+            { kanji: 'お越しいただく', hiragana: 'おこしいただく', arti: 'Datang (bentuk sangat sopan dari 来る)', english: 'To come (very polite form of 来る)' },
+            { kanji: 'お目にかかる', hiragana: 'おめにかかる', arti: 'Bertemu (bentuk rendah hati dari 会う)', english: 'To meet (humble form of 会う)' },
+            { kanji: 'お手数をおかけしますが', hiragana: 'おてすうをおかけしますが', arti: 'Maaf merepotkan Anda, tetapi...', english: 'Sorry to bother you, but...' },
+            { kanji: '〜ようでして', hiragana: '〜ようでして', arti: 'sepertinya', english: 'it seems like' },
+            { kanji: '誠に', hiragana: 'まことに', arti: 'sungguh, sangat (sangat sopan)', english: 'truly, very (very polite)' },
+            { kanji: '遠慮', hiragana: 'えんりょ', arti: 'sungkan, malu-malu', english: 'reserve, holding back, hesitation' },
+            { kanji: '遠慮なく', hiragana: 'えんりょなく', arti: 'tanpa ragu-ragu', english: 'without reserve, freely' },
+            { kanji: '飲み足りない', hiragana: 'のみたりない', arti: 'tidak cukup minum', english: 'not enough (to drink)' },
+            { kanji: '飲み過ぎる', hiragana: 'のみすぎる', arti: 'terlalu banyak minum', english: 'too much (to drink)' },
+            { kanji: '飲みやすい', hiragana: 'のみやすい', arti: 'mudah diminum', english: 'easy to (drink)' },
+            { kanji: '飲みにくい', hiragana: 'のみにくい', arti: 'sulit diminum', english: 'hard to (drink)' },
+            { kanji: '飲みたがる', hiragana: 'のみたがる', arti: 'ingin minum (orang ketiga)', english: 'wants to (drink) (third person)' },
+            { kanji: 'あまりにも', hiragana: 'あまりにも', arti: 'terlalu, sangat', english: 'too much, excessively' },
+            { kanji: 'だいたい', hiragana: 'だいたい', arti: 'kurang lebih, pada umumnya', english: 'generally, approximately' },
+            { kanji: '例えば', hiragana: 'たとえば', arti: 'contohnya', english: 'for example' },
+            { kanji: '恐らく', hiragana: 'おそらく', arti: 'mungkin, barangkali', english: 'perhaps, probably' },
+            { kanji: 'なるほど', hiragana: 'なるほど', arti: 'saya mengerti, begitu ya', english: 'I see, indeed' },
+            { kanji: 'どちらかと言うと', hiragana: 'どちらかというと', arti: 'jika harus memilih', english: 'if I had to choose, rather' },
+            { kanji: '〜から言えば', hiragana: '〜からいえば', arti: 'jika dilihat dari', english: 'if you speak from the point of view of' },
+            { kanji: 'どちらでも', hiragana: 'どちらでも', arti: 'yang mana saja', english: 'either way, whichever' },
+            { kanji: '〜でよければ', hiragana: '〜でよければ', arti: 'jika itu tidak masalah', english: 'if that is okay' },
+            { kanji: '(〜に)対して', hiragana: '(〜に)たいして', arti: 'terhadap', english: 'towards, in contrast to' },
+            { kanji: '丁寧な言葉', hiragana: 'ていねいなことば', arti: 'bahasa sopan', english: 'polite language' },
+            { kanji: 'けい語', hiragana: 'けいご', arti: 'bahasa hormat (Keigo)', english: 'honorific language' },
+            { kanji: '尊敬語', hiragana: 'そんけいご', arti: 'bahasa hormat (Sonkeigo)', english: 'respectful language' },
+            { kanji: '謙譲語', hiragana: 'けんじょうご', arti: 'bahasa merendah (Kenjōgo)', english: 'humble language' },
+            { kanji: 'ていねいご', hiragana: 'ていねいご', arti: 'bahasa sopan (Teineigo)', english: 'polite language' },
+            { kanji: '表現', hiragana: 'ひょうげん', arti: 'ekspresi', english: 'expression' },
+            { kanji: '嫌いな言葉', hiragana: 'きらいなことば', arti: 'kata yang tidak disukai', english: 'disliked word' },
+            { kanji: '・・・たしかに・・・', hiragana: 'たしかに', arti: '・・・tentu saja・・・', english: '...certainly...' },
+            { kanji: 'いつもお電話になっております。', hiragana: 'いつもおでんわになっております。', arti: 'Kami selalu berterima kasih kepada Anda.', english: 'We are always grateful to you. (polite expression)' },
+            { kanji: 'あいにく・・・。', hiragana: 'あいにく', arti: 'Sayangnya...', english: 'Unfortunately...' },
+            { kanji: '恐れ入りますが、・・・。', hiragana: 'おそれいりますが、', arti: 'Maafkan saya karena bertanya, tetapi...', english: 'Excuse me for asking, but...' },
+            { kanji: 'このままでよろしければ', hiragana: 'このままでよろしければ', arti: 'Jika tidak masalah seperti ini', english: 'If it is okay as it is' },
+            { kanji: '日本語能力試験', hiragana: 'にほんごのうりょくしけん', arti: 'Ujian Kemampuan Bahasa Jepang (JLPT)', english: 'Japanese Language Proficiency Test (JLPT)' },
+            { kanji: '〜に合格する', hiragana: '〜にごうかくする', arti: 'lulus (ujian)', english: 'to pass (an exam)' },
+            { kanji: '〜に受かる', hiragana: '〜にうかる', arti: 'lulus (ujian)', english: 'to pass (an exam)' },
+            { kanji: '〜に落ちる', hiragana: '〜におちる', arti: 'gagal (ujian)', english: 'to fail (an exam)' },
+            { kanji: '〜に不合格', hiragana: '〜にふごうかく', arti: 'gagal (ujian)', english: 'to fail (an exam)' },
+
+            // --- KOSAKATA TAMBAHAN & DEDUP (Diambil hanya dari data Anda, stop di 163) ---
+            { kanji: '〜にもかかわらず', hiragana: '〜にもかかわらず', arti: 'walaupun, meskipun', english: 'despite, although' },
+            { kanji: '〜にかかわらず', hiragana: '〜にかかわらず', arti: 'tanpa memandang, tanpa peduli', english: 'regardless of, irrespective of' },
+            { kanji: '最寄り駅', hiragana: 'もよりえき', arti: 'stasiun terdekat', english: 'nearest station' },
+            { kanji: '独特', hiragana: 'どくとく', arti: 'unik/khas', english: 'unique / characteristic' },
+            { kanji: '〜にとって', hiragana: '〜にとって', arti: 'bagi/menurut', english: 'for / according to' },
+            { kanji: '蟻', hiragana: 'あり', arti: 'semut', english: 'ant' },
+            { kanji: '浴槽', hiragana: 'よくそう', arti: 'bak mandi', english: 'bathtub' },
+            { kanji: '設備', hiragana: 'せつび', arti: 'fasilitas', english: 'facility / equipment' },
+            { kanji: '無くなる', hiragana: 'なくなる', arti: 'menghilang/lenyap', english: 'to disappear / to be lost' },
+            { kanji: '協力', hiragana: 'きょうりょく', arti: 'kerja sama/bantuan', english: 'cooperation / collaboration' },
+            { kanji: '黙る', hiragana: 'だまる', arti: 'diam/membisu', english: 'to be silent / to shut up' },
+            { kanji: '繰り返す', hiragana: 'くりかえす', arti: 'mengulang', english: 'to repeat / to do over' },
+            { kanji: '生きる', hiragana: 'いきる', arti: 'hidup', english: 'to live / to exist' },
+            { kanji: '不味い', hiragana: 'まずい', arti: 'tidak enak (rasa)', english: 'bad tasting / unappetizing' },
+            { kanji: '国産', hiragana: 'こくさん', arti: 'produksi domestik', english: 'domestic product' },
+            { kanji: '誇り', hiragana: 'ほこり', arti: 'kebanggaan/harga diri', english: 'pride / boast' },
+            { kanji: '海岸', hiragana: 'かいがん', arti: 'pantai', english: 'coast / beach' },
+            { kanji: '左利き', hiragana: 'ひだりきき', arti: 'kidal', english: 'left-handed' },
+            { kanji: 'レッテル貼り', hiragana: 'レッテルばり', arti: 'stereotip/pelabelan', english: 'stereotyping / labeling' },
+            { kanji: '仮装', hiragana: 'かそう', arti: 'kostum', english: 'costume / disguise' },
+            { kanji: '未来', hiragana: 'みらい', arti: 'masa depan', english: 'future (general)' },
+            { kanji: '存在', hiragana: 'そんざい', arti: 'keberadaan/eksistensi', english: 'existence / being' },
+            { kanji: '硬い/固い/堅い', hiragana: 'かたい', arti: 'keras/kokoh/tangguh', english: 'hard / tough / solid' },
+            { kanji: '鳴き声', hiragana: 'なきごえ', arti: 'suara tangisan (hewan/bayi)', english: 'cry / chirp / roar (animal/baby)' },
+            { kanji: '段落', hiragana: 'だんらく', arti: 'paragraf', english: 'paragraph' },
+            { kanji: 'のみ/ばかり/だけ', hiragana: 'のみ/ばかり/だけ', arti: 'hanya/saja', english: 'only / just' },
+            { kanji: '相応しい', hiragana: 'ふさわしい', arti: 'pantas/cocok', english: 'suitable / appropriate' },
+            { kanji: '解く', hiragana: 'ほどく', arti: 'melepaskan ikatan', english: 'to untie / to unbind' },
+            { kanji: '結ぶ', hiragana: 'むすぶ', arti: 'mengikat', english: 'to tie / to knot' },
+            { kanji: '結論', hiragana: 'けつろん', arti: 'kesimpulan', english: 'conclusion' },
+            { kanji: '栄養不足', hiragana: 'えいようぶそく', arti: 'kekurangan nutrisi', english: 'malnutrition / lack of nutrition' },
+            { kanji: 'バランスを崩す', hiragana: 'バランスをくずす', arti: 'tidak seimbang', english: 'to lose balance' },
+            { kanji: '再配達', hiragana: 'さいはいたつ', arti: 'pengiriman ulang', english: 'redelivery' },
+            { kanji: '再', hiragana: 'さい', arti: 'lagi/kembali', english: 'again / re-' },
+            { kanji: '配達料', hiragana: 'はいたつりょう', arti: 'biaya pengiriman', english: 'delivery fee / postage' },
+            { kanji: '本日', hiragana: 'ほんじつ', arti: 'hari ini (formal)', english: 'today (formal)' },
+            { kanji: '来客中', hiragana: 'らいきゃくちゅう', arti: 'sedang menerima tamu', english: 'currently receiving a visitor' },
+            { kanji: '断る', hiragana: 'ことわる', arti: 'menolak', english: 'to refuse / to reject' },
+            { kanji: '無断', hiragana: 'むだん', arti: 'tanpa izin', english: 'without permission' },
+            { kanji: '偽物', hiragana: 'にせもの', arti: 'barang palsu/tiruan', english: 'fake / counterfeit item' },
+            { kanji: '親友', hiragana: 'しんゆう', arti: 'sahabat karib', english: 'best friend / close friend' },
+            { kanji: '破る', hiragana: 'やぶる', arti: 'merobek/melanggar (janji)', english: 'to tear / to break (a promise)' },
+            { kanji: '上司', hiragana: 'じょうし', arti: 'atasan', english: 'boss / superior' },
+            { kanji: '修正', hiragana: 'しゅうせい', arti: 'koreksi/revisi', english: 'correction / amendment' },
+            { kanji: 'もう全く', hiragana: 'もうまったく', arti: 'sama sekali (tidak)', english: 'absolutely (not) / totally' },
+            { kanji: '鮮明', hiragana: 'せんめい', arti: 'jelas/gamblang', english: 'clear / vivid / sharp' },
+            { kanji: '鮮明の立場', hiragana: 'せんめいのたちば', arti: 'posisi yang jelas', english: 'clear position / clear stance' },
+            { kanji: '厚みがある', hiragana: 'あつみがある', arti: 'tebal', english: 'thick / voluminous' },
+            { kanji: '各駅停車', hiragana: 'かくえきていしゃ', arti: 'kereta lokal (berhenti di setiap stasiun)', english: 'local train' },
+            { kanji: '発言', hiragana: 'はつげん', arti: 'pernyataan/ucapan', english: 'statement / remark' },
+            { kanji: '反応', hiragana: 'はんのう', arti: 'reaksi', english: 'reaction / response' },
+            { kanji: '初心者', hiragana: 'しょしんしゃ', arti: 'pemula', english: 'beginner / novice' },
+            { kanji: '選手', hiragana: 'せんしゅ', arti: 'atlet/pemain', english: 'athlete / player' },
+            { kanji: '理解', hiragana: 'りかい', arti: 'pemahaman', english: 'understanding / comprehension' },
+            { kanji: '認めます', hiragana: 'みとめます', arti: 'mengakui/mengizinkan', english: 'to acknowledge / to permit' },
+            { kanji: 'やはり', hiragana: 'やはり', arti: 'ternyata/memang', english: 'as expected / indeed / after all' },
+            { kanji: '価値があります', hiragana: 'かちがあります', arti: 'berharga/bernilai', english: 'valuable / worth something' },
+            { kanji: 'はずがない', hiragana: 'はずがない', arti: 'mustahil/tidak mungkin', english: 'impossible / highly unlikely' },
+            { kanji: '正直', hiragana: 'しょうじき', arti: 'jujur', english: 'honest / honesty' },
+            { kanji: '手先が器用/不器用', hiragana: 'てさきがきよう/ぶきよう', arti: 'terampil/canggung (dengan tangan)', english: 'skillful / clumsy (with hands)' },
+            { kanji: '才能', hiragana: 'さいのう', arti: 'bakat', english: 'talent / ability' },
+            { kanji: '真剣', hiragana: 'しんけん', arti: 'serius/sungguh-sungguh', english: 'serious / earnest' },
+            { kanji: '態度', hiragana: 'たいど', arti: 'sikap/tingkah laku', english: 'attitude / demeanor' },
+            { kanji: 'やり方', hiragana: 'やりかた', arti: 'cara/metode', english: 'way of doing / method' },
+            { kanji: '打って', hiragana: 'うって', arti: 'memukul/menembak', english: 'to strike / to shoot' },
+            { kanji: '引用する', hiragana: 'いんようする', arti: 'mengutip', english: 'to quote / to cite' },
+            { kanji: '打ち合わせて', hiragana: 'うちあわせて', arti: 'berdiskusi/bertemu', english: 'to arrange a meeting / to discuss in advance' },
+            { kanji: '応募', hiragana: 'おうぼ', arti: 'melamar (pekerjaan)', english: 'application / entry (for a job)' },
+            { kanji: '資格', hiragana: 'しかく', arti: 'kualifikasi/izin', english: 'qualification / eligibility' },
+            { kanji: '募集', hiragana: 'ぼしゅう', arti: 'rekrutmen/penerimaan', english: 'recruitment / advertisement' },
+            { kanji: '責任をとる', hiragana: 'せきにんをとる', arti: 'bertanggung jawab', english: 'to take responsibility' },
+            { kanji: '評価が高い', hiragana: 'ひょうかがたかい', arti: 'reputasi/evaluasi tinggi', english: 'high evaluation / high reputation' },
+            { kanji: '評価がいい', hiragana: 'ひょうかがいい', arti: 'reputasi/evaluasi baik', english: 'good evaluation / good reputation' },
+            { kanji: '満足', hiragana: 'まんぞく', arti: 'puas/memuaskan', english: 'satisfaction / contentment' },
+            { kanji: 'わくわくする', hiragana: 'わくわくする', arti: 'bersemangat/gembira', english: 'to be excited / to be thrilled' },
+            { kanji: '緊張した', hiragana: 'きんちょうした', arti: 'gugup/tegang', english: 'nervous / tense' },
+            { kanji: '期待した', hiragana: 'きたいした', arti: 'berharap/menanti', english: 'to expect / to look forward to' },
+            { kanji: 'ストレスを解消する', hiragana: 'ストレスをかいしょうする', arti: 'menghilangkan stres', english: 'to relieve stress' },
+            { kanji: 'ワクチンを接種する', hiragana: 'ワクチンをせっしゅする', arti: 'disuntik vaksin', english: 'to be vaccinated' },
+            { kanji: 'ワクチンを打ちます', hiragana: 'ワクチンをうちます', arti: 'menyuntikkan vaksin', english: 'to administer a vaccine' },
+            { kanji: '芽', hiragana: 'め', arti: 'tunas/pucuk', english: 'sprout / bud' },
+            { kanji: '芽生え', hiragana: 'めばえ', arti: 'tunas', english: 'budding / sprouting' },
+            { kanji: '生える', hiragana: 'はえる', arti: 'tumbuh (tumbuhan)', english: 'to grow (plant)' },
+            { kanji: '散る', hiragana: 'ちる', arti: 'berguguran/bertebaran', english: 'to scatter / to fall (leaves/flowers)' },
+            { kanji: '気が散る', hiragana: 'きがちる', arti: 'sulit fokus/terganggu', english: 'to be distracted / to lose focus' },
+            { kanji: '夢', hiragana: 'ゆめ', arti: 'mimpi', english: 'dream' },
+        ];
+
+        let VOCABULARY_DATA = []; // Array yang akan digunakan dan diacak
+        let correctCount = 0;
+        let totalCount = 0; 
+        let isComplete = false;
+        let emptyCount = 0;
+
+        /**
+         * Fungsi untuk mengacak urutan array (Fisher-Yates Shuffle)
+         * @param {Array} array - Array yang akan diacak
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        /**
+         * Fungsi untuk menormalisasi string: menghapus spasi dan mengubah ke huruf kecil.
+         */
+        function normalizeString(str) {
+            if (typeof str !== 'string') return '';
+            // Mengganti Katakana menjadi Hiragana untuk perbandingan yang lebih toleran
+            str = str.replace(/[\u30a1-\u30ff]/g, function(k) {
+                return String.fromCharCode(k.charCodeAt(0) - 0x60);
+            });
+            return str.toLowerCase().trim();
+        }
+
+        /**
+         * Mengupdate tampilan hitungan pada header
+         */
+        function updateCountsDisplay() {
+            // Hitung ulang yang kosong
+            emptyCount = 0;
+            const inputElements = document.querySelectorAll('.vocab-input');
+            inputElements.forEach(input => {
+                // Hanya cek value.trim() untuk hitungan kosong
+                if (input.value.trim() === '') {
+                    emptyCount++;
+                }
+            });
+
+            // Update DOM
+            document.getElementById('correct-count-display').textContent = correctCount;
+            document.getElementById('empty-count-display').textContent = emptyCount;
+            document.getElementById('total-count-display').textContent = totalCount;
+            document.getElementById('notification-total-count').textContent = totalCount;
+
+
+            // Logika untuk menampilkan notifikasi selesai (jika semua terisi)
+            if (correctCount === totalCount && !isComplete) {
+                isComplete = true;
+                showCompletionNotification(correctCount);
+                
+                // Menghilangkan dan menonaktifkan tombol atas
+                document.getElementById('action-button').disabled = true;
+                document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+
+                // Menampilkan tombol ulangi kuis di bawah
+                document.getElementById('bottom-action-container').classList.remove('hidden');
+            } else if (correctCount < totalCount && isComplete) {
+                // Jika pengguna mengubah jawaban benar menjadi salah setelah selesai
+                isComplete = false;
+                document.getElementById('completion-notification').classList.add('hidden');
+                
+                // Mengaktifkan kembali tombol atas
+                document.getElementById('action-button').disabled = false;
+                document.getElementById('action-button').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('action-button').onclick = showAllAnswers;
+
+                // Menyembunyikan tombol ulangi kuis di bawah
+                document.getElementById('bottom-action-container').classList.add('hidden');
+            }
+        }
+
+        /**
+         * Menampilkan notifikasi rekap di header (menggantikan modal)
+         * @param {number} score - Skor akhir pengguna
+         */
+        function showCompletionNotification(score) {
+            document.getElementById('notification-correct-count').textContent = score;
+            document.getElementById('completion-notification').classList.remove('hidden');
+        }
+
+
+        /**
+         * Memeriksa input pengguna dan memberikan feedback
+         * @param {number} index - Indeks item kosakata
+         * @param {HTMLElement} inputElement - Elemen input
+         */
+        function checkAnswer(index, inputElement) {
+            // Jika sudah selesai (setelah tombol 'Selesai' ditekan), jangan lakukan apa-apa
+            if (inputElement.dataset.correct === 'completed') return;
+
+            const vocabItem = VOCABULARY_DATA[index];
+            const userInput = normalizeString(inputElement.value);
+            const correctHiragana = normalizeString(vocabItem.hiragana);
+            const artiIdElement = document.getElementById(`arti-id-${index}`);
+            const artiEnElement = document.getElementById(`arti-en-${index}`);
+            const cardElement = document.getElementById(`card-${index}`);
+
+            // Hapus kelas feedback sebelumnya dan kelas styling kartu
+            inputElement.classList.remove('input-correct', 'input-incorrect', 'bg-yellow-100', 'border-yellow-500');
+            inputElement.classList.add('border-gray-300');
+            cardElement.classList.remove('card-correct', 'bg-white'); 
+            cardElement.classList.add('bg-white');
+
+            const isFilled = userInput !== '';
+            const isCurrentlyCorrect = inputElement.dataset.correct === 'true';
+
+
+            if (userInput === correctHiragana && isFilled) {
+                // Jawaban Benar
+                inputElement.classList.add('input-correct');
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden'); // Tampilkan arti Inggris juga
+                cardElement.classList.remove('bg-white');
+                cardElement.classList.add('card-correct');
+
+                if (!isCurrentlyCorrect) {
+                    inputElement.dataset.correct = 'true';
+                    correctCount++;
+                }
+            } else if (isFilled) {
+                // Jawaban Salah
+                inputElement.classList.add('input-incorrect');
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (isCurrentlyCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            } else {
+                // Input Kosong
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (isCurrentlyCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            }
+            
+            updateCountsDisplay();
+        }
+
+        /**
+         * Fungsi: Menampilkan semua jawaban (mode Selesai)
+         */
+        function showAllAnswers() {
+            // 1. NONAKTIFKAN INPUT
+            const inputElements = document.querySelectorAll('.vocab-input');
+            inputElements.forEach(input => {
+                input.disabled = true;
+            });
+
+            // Ambil skor aktual yang dicapai pengguna
+            const actualUserScore = correctCount; 
+
+            // 2. REVEAL JAWABAN (perubahan visual)
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const inputElement = document.getElementById(`input-${index}`);
+                const artiIdElement = document.getElementById(`arti-id-${index}`);
+                const artiEnElement = document.getElementById(`arti-en-${index}`);
+                const correctHiragana = normalizeString(vocab.hiragana);
+                const userInput = normalizeString(inputElement.value);
+
+                // Pastikan arti selalu terlihat
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden'); // Tampilkan arti Inggris juga
+                
+                // Jika input salah atau kosong, isi dengan jawaban yang benar dan beri highlight kuning
+                if (userInput !== correctHiragana || inputElement.value.trim() === '') {
+                    inputElement.value = vocab.hiragana; // Menampilkan jawaban yang benar
+                    inputElement.classList.remove('input-correct', 'input-incorrect', 'border-gray-300');
+                    // Menggunakan highlight kuning untuk jawaban yang dibuka
+                    inputElement.classList.add('bg-yellow-100', 'border-yellow-500', 'text-gray-800'); 
+                    
+                } else {
+                     // Jika sudah benar, pertahankan warna hijau
+                    inputElement.classList.remove('border-gray-300');
+                    inputElement.classList.add('input-correct');
+                    document.getElementById(`card-${index}`).classList.remove('bg-white');
+                    document.getElementById(`card-${index}`).classList.add('card-correct');
+                }
+                // Atur status agar tidak bisa diubah lagi
+                inputElement.dataset.correct = 'completed'; 
+            });
+
+            // 3. UPDATE STATUS UI/HEADER & NOTIFIKASI
+            isComplete = true;
+            showCompletionNotification(actualUserScore);
+            
+            // Set hitungan yang ditampilkan di header: Skor asli, dan sisanya (yang sekarang sudah diisi) adalah 0
+            document.getElementById('correct-count-display').textContent = actualUserScore;
+            document.getElementById('empty-count-display').textContent = 0; 
+
+            // 4. NONAKTIFKAN TOMBOL ATAS
+            document.getElementById('action-button').disabled = true;
+            document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+            
+            // 5. TAMPILKAN TOMBOL ULANGI KUIS DI BAWAH
+            document.getElementById('bottom-action-container').classList.remove('hidden');
+        }
+
+        /**
+         * Merender semua kartu kosakata ke DOM
+         */
+        function renderQuiz() {
+            // 1. Acak Data dan Inisialisasi Hitungan
+            VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA]; // Ambil salinan
+            shuffleArray(VOCABULARY_DATA); // Acak urutan
+            totalCount = VOCABULARY_DATA.length;
+            correctCount = 0;
+            emptyCount = totalCount;
+            
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            // 2. Render Kartu
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const card = document.createElement('div');
+                card.id = `card-${index}`;
+                // Menambahkan kelas quiz-card dan hover yang lebih halus
+                card.className = 'quiz-card bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:-translate-y-1';
+                
+                card.innerHTML = `
+                    <div class="mb-4 border-b border-gray-100 pb-3">
+                        <p class="text-xs font-semibold text-indigo-500 uppercase">Kanji</p>
+                        <!-- Mengatur ukuran font lebih kecil untuk frasa panjang agar tidak terlalu besar di ponsel -->
+                        <h3 class="text-3xl font-extrabold text-gray-800 sm:text-4xl">${vocab.kanji}</h3>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="input-${index}" class="block text-xs font-semibold text-gray-500 uppercase mb-1">Input Hiragana/Katakana</label>
+                        <input
+                            type="text"
+                            id="input-${index}"
+                            data-correct="false"
+                            onkeyup="checkAnswer(${index}, this)"
+                            placeholder="Tulis cara baca di sini..."
+                            class="vocab-input w-full p-3 border-2 border-gray-300 rounded-lg text-xl font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out"
+                            autocomplete="off"
+                        />
+                    </div>
+                    
+                    <!-- Arti Bahasa Indonesia -->
+                    <div id="arti-id-${index}" class="hidden bg-emerald-100 p-3 rounded-lg border-l-4 border-emerald-500 transition-all duration-300 mb-2">
+                        <p class="text-xs font-semibold text-emerald-700 uppercase">Arti Kata (ID)</p>
+                        <p class="text-gray-800 font-medium">${vocab.arti}</p>
+                    </div>
+
+                    <!-- Arti Bahasa Inggris (BARU) -->
+                    <div id="arti-en-${index}" class="hidden bg-blue-100 p-3 rounded-lg border-l-4 border-blue-500 transition-all duration-300">
+                        <p class="text-xs font-semibold text-blue-700 uppercase">Meaning (EN)</p>
+                        <p class="text-gray-800 font-medium">${vocab.english}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            updateCountsDisplay(); // Inisialisasi hitungan di header
+        }
+
+        /**
+         * Mengatur ulang status kuis untuk mengulang
+         */
+        function resetQuiz() {
+            // Panggil renderQuiz untuk mengacak dan membuat ulang kartu
+            renderQuiz(); 
+            
+            isComplete = false;
+            document.getElementById('completion-notification').classList.add('hidden');
+            
+            // Reset tombol aksi atas
+            const actionButton = document.getElementById('action-button');
+            actionButton.textContent = "Tampilkan Jawaban (Selesai)";
+            actionButton.onclick = showAllAnswers;
+            actionButton.disabled = false;
+            actionButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Sembunyikan tombol ulangi kuis di bawah
+            document.getElementById('bottom-action-container').classList.add('hidden');
+        }
+
+        // Panggil render saat halaman dimuat
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>
