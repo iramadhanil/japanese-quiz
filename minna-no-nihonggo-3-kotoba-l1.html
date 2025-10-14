@@ -1,132 +1,709 @@
-<!-- Tambahkan di bagian atas konten kuis -->
-<a href="index.html" style="display: inline-block; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #0f2847, #1a1f3a); color: white; text-decoration: none; border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.3); margin-bottom: 2rem;">
-  ← Kembali ke Homepage
-</a>
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Kosakata Jepang Interaktif</title>
-    <!-- Memuat Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Minna No Nihonggo 3 - 語彙 L1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Menggunakan font Inter */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #eef2ff; /* Latar belakang lebih lembut (indigo-50) */
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
         }
-        /* Transisi halus untuk semua kartu (untuk hover) */
-        .quiz-card {
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        /* Animated Gradient Background - SAMA dengan homepage */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #0f2847, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
         }
-        /* Custom class untuk input yang sudah benar (hijau lembut) */
-        .input-correct {
-            border-color: #059669 !important; /* green-600 */
-            background-color: #f0fff4 !important; /* green-50 */
-            color: #064e3b !important; /* green-900 */
-            transition: all 0.2s ease-in-out; 
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        /* Custom class untuk input yang salah (merah lembut) */
-        .input-incorrect {
-            border-color: #f87171 !important; /* red-400 */
-            background-color: #fef2f2 !important; /* red-50 */
-            transition: all 0.2s ease-in-out; 
+
+        /* Floating Geometric Shapes - SAMA dengan homepage */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
         }
-        /* Custom class untuk kartu yang sudah benar */
-        .card-correct {
-            background-color: #e0e7ff; /* indigo-200, lebih cerah */
-            border-color: #6366f1 !important; /* indigo-500 */
-            /* Bayangan ungu yang halus untuk kartu yang benar */
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.15); 
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
         }
-        /* Style untuk container utama kuis */
-        .quiz-container {
-            display: grid;
-            gap: 1.5rem; /* gap-6 */
-            grid-template-columns: repeat(1, minmax(0, 1fr));
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            top: 10%;
+            left: 10%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: 0s;
         }
-        /* Responsiveness untuk tablet dan desktop */
-        @media (min-width: 640px) {
-            .quiz-container {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            top: 60%;
+            left: 70%;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff0080, #cc0066);
+            top: 30%;
+            left: 80%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            top: 70%;
+            left: 15%;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #a000ff, #7700cc);
+            top: 15%;
+            left: 50%;
+            border-radius: 20px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
             }
         }
-        @media (min-width: 1024px) {
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Particle system */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: particleRise 15s infinite ease-in;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        @keyframes particleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header kuis */
+        .quiz-header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: headerShine 3s infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .quiz-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .quiz-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Tombol kembali ke homepage */
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Summary stats box */
+        .stats-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-group {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-correct { color: #00ff88; }
+        .stat-empty { color: #ff0080; }
+        .stat-total { color: #00d4ff; }
+
+        /* Action button */
+        .action-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Completion notification */
+        .completion-notification {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 4px solid #ffaa00;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .completion-notification p {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .completion-notification .score {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        /* Quiz grid */
+        .quiz-container {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            margin-top: 2rem;
+        }
+
+        /* Quiz card */
+        .quiz-card {
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tech corner accents */
+        .quiz-card::before,
+        .quiz-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00d4ff;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .quiz-card::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .quiz-card::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .quiz-card:hover::before,
+        .quiz-card:hover::after {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+
+        .quiz-card.card-correct {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Kanji section */
+        .kanji-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .kanji-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .kanji-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Input section */
+        .input-section {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .vocab-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(15, 40, 71, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .vocab-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .vocab-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(15, 40, 71, 0.8);
+        }
+
+        .vocab-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Input feedback states */
+        .input-correct {
+            border-color: #00ff88 !important;
+            background: rgba(0, 255, 136, 0.1) !important;
+            color: #00ff88 !important;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
+        }
+
+        .input-incorrect {
+            border-color: #ff0080 !important;
+            background: rgba(255, 0, 128, 0.1) !important;
+            color: #ff0080 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.3) !important;
+        }
+
+        .input-revealed {
+            border-color: #ffaa00 !important;
+            background: rgba(255, 170, 0, 0.1) !important;
+            color: #ffaa00 !important;
+        }
+
+        /* Meaning boxes */
+        .meaning-box {
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .meaning-box.hidden {
+            display: none;
+        }
+
+        .meaning-id {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+        }
+
+        .meaning-en {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .meaning-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meaning-id .meaning-label {
+            color: #00ff88;
+        }
+
+        .meaning-en .meaning-label {
+            color: #00d4ff;
+        }
+
+        .meaning-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Reset button */
+        .reset-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            color: #0a0e27;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-button:hover {
+            background: linear-gradient(135deg, #00cc6f, #00ff88);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Bottom action container */
+        .bottom-action {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .bottom-action.hidden {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
             .quiz-container {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns: 1fr;
+            }
+
+            .stats-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-box {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .kanji-text {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body>
+    <!-- Animated Background Elements - SAMA dengan homepage -->
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
 
-    <div class="max-w-7xl mx-auto">
-        <header class="mb-10 pb-6 border-b-2 border-indigo-300">
-            <h1 class="text-4xl font-extrabold text-indigo-800 mb-2">Kuis Kosakata Jepang Interaktif</h1>
-            <p class="text-gray-600">Tuliskan Hiragana (Cara Baca) yang benar. Gunakan tombol di bawah untuk melihat rekapitulasi.</p>
-            
-            <!-- Kotak Ringkasan & Tombol Aksi -->
-            <div class="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-white rounded-xl shadow-md border border-indigo-200">
-                <div class="flex space-x-6 mb-4 md:mb-0">
-                    <div class="text-center">
-                        <p id="correct-count-display" class="text-3xl font-extrabold text-green-600">0</p>
-                        <p class="text-sm font-medium text-gray-500">BENAR</p>
-                    </div>
-                    <div class="text-center">
-                        <p id="empty-count-display" class="text-3xl font-extrabold text-red-500">0</p>
-                        <p class="text-sm font-medium text-gray-500">KOSONG</p>
-                    </div>
-                    <div class="text-center">
-                        <!-- Nilai Total akan diisi oleh JavaScript -->
-                        <p id="total-count-display" class="text-3xl font-extrabold text-indigo-600">0</p>
-                        <p class="text-sm font-medium text-gray-500">TOTAL</p>
-                    </div>
-                </div>
-                
-                <button onclick="showAllAnswers()" id="action-button" class="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150 shadow-lg hover:shadow-xl">
-                    Tampilkan Jawaban (Selesai)
-                </button>
-            </div>
-            
-            <!-- PENGGANTI MODAL: Kotak Pemberitahuan Selesai -->
-            <div id="completion-notification" class="hidden mt-6 p-4 bg-yellow-100 rounded-lg border-l-4 border-yellow-500 shadow-md transition duration-300">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-semibold text-yellow-800">Kuis Selesai! Skor Anda:</p>
-                        <p class="text-lg font-bold text-gray-800">
-                            <span id="notification-correct-count" class="text-green-600">0</span> Benar 
-                            dari 
-                            <span id="notification-total-count">0</span> Kata. 
-                            Anda sekarang dapat meninjau semua jawaban di bawah.
-                        </p>
-                    </div>
-                    <!-- Tombol Ulangi Kuis dipindahkan ke bawah -->
-                </div>
-            </div>
-            <!-- Akhir PENGGANTI MODAL -->
+    <div class="container">
+        <!-- Tombol kembali -->
+        <a href="index.html" class="back-button">← Kembali ke Homepage</a>
 
-        </header>
-        
-        <div id="quiz-container" class="quiz-container">
-            <!-- Kartu Kosakata akan di-inject di sini oleh JavaScript -->
+        <!-- Header kuis -->
+        <div class="quiz-header">
+            <h1>Minna No Nihonggo 3 - Kotoba L1</h1>
+            <p>Tuliskan hiragana/Katakana (cara baca) yang benar.</p>
         </div>
 
-        <!-- TOMBOL ULANGI KUIS DI BAGIAN BAWAH -->
-        <div id="bottom-action-container" class="mt-10 mb-10 text-center hidden">
-            <button onclick="resetQuiz()" id="reset-button-bottom" class="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-xl rounded-xl hover:from-green-600 hover:to-emerald-700 transition duration-300 shadow-xl transform hover:scale-105">
-                Ulangi Kuis Sekarang
+        <!-- Stats box -->
+        <div class="stats-box">
+            <div class="stats-group">
+                <div class="stat-item">
+                    <p id="correct-count-display" class="stat-number stat-correct">0</p>
+                    <p class="stat-label">Benar</p>
+                </div>
+                <div class="stat-item">
+                    <p id="empty-count-display" class="stat-number stat-empty">0</p>
+                    <p class="stat-label">Kosong</p>
+                </div>
+                <div class="stat-item">
+                    <p id="total-count-display" class="stat-number stat-total">0</p>
+                    <p class="stat-label">Total</p>
+                </div>
+            </div>
+            
+            <button onclick="showAllAnswers()" id="action-button" class="action-button">
+                Selesaikan Kuis
             </button>
         </div>
-        <!-- AKHIR TOMBOL BAWAH -->
 
+        <!-- Completion notification -->
+        <div id="completion-notification" class="completion-notification hidden">
+            <p>Kuis Selesai! Skor Anda:</p>
+            <p class="score">
+                <span id="notification-correct-count">0</span> Benar 
+                dari 
+                <span id="notification-total-count">0</span> Kata
+            </p>
+            <p>Anda sekarang dapat meninjau semua jawaban di bawah.</p>
+        </div>
+
+        <!-- Quiz container -->
+        <div id="quiz-container" class="quiz-container">
+            <!-- Kartu akan di-inject oleh JavaScript -->
+        </div>
+
+        <!-- Bottom reset button -->
+        <div id="bottom-action-container" class="bottom-action hidden">
+            <button onclick="resetQuiz()" class="reset-button">
+                Ulangi Kuis!
+            </button>
+        </div>
     </div>
 
     <script>
-        // Data Kosakata BARU (Tepat 163 Entri, Diambil HANYA dari CSV terakhir yang diberikan)
+        // Data Kosakata (SAMA dengan kode Anda)
         const MASTER_VOCABULARY_DATA = [
             // --- KOSAKATA L3 ---
             { kanji: 'インタビューする', hiragana: 'インタビューする', arti: 'wawancara', english: 'to interview' },
@@ -175,7 +752,7 @@
             { kanji: '出席者', hiragana: 'しゅっせきしゃ', arti: 'peserta', english: 'attendee, participant' },
             { kanji: '料金', hiragana: 'りょうきん', arti: 'biaya, ongkos', english: 'fee, charge' },
             
-            // --- UNGKAPAN & EKSPRESI (Disempurnakan untuk kuis) ---
+            // --- UNGKAPAN & EKSPRESI ---
             { kanji: '〜させていただきます', hiragana: '〜させていただきます', arti: 'mengizinkan saya untuk', english: 'allow me to (humble expression)' },
             { kanji: 'お邪魔します', hiragana: 'おじゃまします', arti: 'permisi, maaf mengganggu (saat masuk)', english: 'Excuse me for intruding (when entering)' },
             { kanji: 'よろしかったでしょうか', hiragana: 'よろしかったでしょうか', arti: 'apakah (jadwal/keputusan) sudah benar? (sangat sopan)', english: 'Was (the decision) correct? (very polite check)' },
@@ -219,8 +796,6 @@
             { kanji: '〜に受かる', hiragana: '〜にうかる', arti: 'lulus (ujian)', english: 'to pass (an exam)' },
             { kanji: '〜に落ちる', hiragana: '〜におちる', arti: 'gagal (ujian)', english: 'to fail (an exam)' },
             { kanji: '〜に不合格', hiragana: '〜にふごうかく', arti: 'gagal (ujian)', english: 'to fail (an exam)' },
-
-            // --- KOSAKATA TAMBAHAN & DEDUP (Diambil hanya dari data Anda, stop di 163) ---
             { kanji: '〜にもかかわらず', hiragana: '〜にもかかわらず', arti: 'walaupun, meskipun', english: 'despite, although' },
             { kanji: '〜にかかわらず', hiragana: '〜にかかわらず', arti: 'tanpa memandang, tanpa peduli', english: 'regardless of, irrespective of' },
             { kanji: '最寄り駅', hiragana: 'もよりえき', arti: 'stasiun terdekat', english: 'nearest station' },
@@ -309,16 +884,27 @@
             { kanji: '夢', hiragana: 'ゆめ', arti: 'mimpi', english: 'dream' },
         ];
 
-        let VOCABULARY_DATA = []; // Array yang akan digunakan dan diacak
+        let VOCABULARY_DATA = [];
         let correctCount = 0;
-        let totalCount = 0; 
+        let totalCount = 0;
         let isComplete = false;
         let emptyCount = 0;
 
-        /**
-         * Fungsi untuk mengacak urutan array (Fisher-Yates Shuffle)
-         * @param {Array} array - Array yang akan diacak
-         */
+        // Create particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -326,82 +912,51 @@
             }
         }
 
-        /**
-         * Fungsi untuk menormalisasi string: menghapus spasi dan mengubah ke huruf kecil.
-         */
         function normalizeString(str) {
             if (typeof str !== 'string') return '';
-            // Mengganti Katakana menjadi Hiragana untuk perbandingan yang lebih toleran
             str = str.replace(/[\u30a1-\u30ff]/g, function(k) {
                 return String.fromCharCode(k.charCodeAt(0) - 0x60);
             });
             return str.toLowerCase().trim();
         }
 
-        /**
-         * Mengupdate tampilan hitungan pada header
-         */
         function updateCountsDisplay() {
-            // Hitung ulang yang kosong
             emptyCount = 0;
             const inputElements = document.querySelectorAll('.vocab-input');
             inputElements.forEach(input => {
-                // Hanya cek value.trim() untuk hitungan kosong
                 if (input.value.trim() === '') {
                     emptyCount++;
                 }
             });
 
-            // Update DOM
             document.getElementById('correct-count-display').textContent = correctCount;
             document.getElementById('empty-count-display').textContent = emptyCount;
             document.getElementById('total-count-display').textContent = totalCount;
             document.getElementById('notification-total-count').textContent = totalCount;
 
-
-            // Logika untuk menampilkan notifikasi selesai (jika semua terisi)
             if (correctCount === totalCount && !isComplete) {
                 isComplete = true;
                 showCompletionNotification(correctCount);
                 
-                // Menghilangkan dan menonaktifkan tombol atas
                 document.getElementById('action-button').disabled = true;
                 document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
-
-                // Menampilkan tombol ulangi kuis di bawah
                 document.getElementById('bottom-action-container').classList.remove('hidden');
             } else if (correctCount < totalCount && isComplete) {
-                // Jika pengguna mengubah jawaban benar menjadi salah setelah selesai
                 isComplete = false;
                 document.getElementById('completion-notification').classList.add('hidden');
                 
-                // Mengaktifkan kembali tombol atas
                 document.getElementById('action-button').disabled = false;
                 document.getElementById('action-button').classList.remove('opacity-50', 'cursor-not-allowed');
-                document.getElementById('action-button').onclick = showAllAnswers;
-
-                // Menyembunyikan tombol ulangi kuis di bawah
                 document.getElementById('bottom-action-container').classList.add('hidden');
             }
         }
 
-        /**
-         * Menampilkan notifikasi rekap di header (menggantikan modal)
-         * @param {number} score - Skor akhir pengguna
-         */
         function showCompletionNotification(score) {
             document.getElementById('notification-correct-count').textContent = score;
             document.getElementById('completion-notification').classList.remove('hidden');
         }
 
-
-        /**
-         * Memeriksa input pengguna dan memberikan feedback
-         * @param {number} index - Indeks item kosakata
-         * @param {HTMLElement} inputElement - Elemen input
-         */
         function checkAnswer(index, inputElement) {
-            // Jika sudah selesai (setelah tombol 'Selesai' ditekan), jangan lakukan apa-apa
             if (inputElement.dataset.correct === 'completed') return;
 
             const vocabItem = VOCABULARY_DATA[index];
@@ -411,22 +966,16 @@
             const artiEnElement = document.getElementById(`arti-en-${index}`);
             const cardElement = document.getElementById(`card-${index}`);
 
-            // Hapus kelas feedback sebelumnya dan kelas styling kartu
-            inputElement.classList.remove('input-correct', 'input-incorrect', 'bg-yellow-100', 'border-yellow-500');
-            inputElement.classList.add('border-gray-300');
-            cardElement.classList.remove('card-correct', 'bg-white'); 
-            cardElement.classList.add('bg-white');
+            inputElement.classList.remove('input-correct', 'input-incorrect', 'input-revealed');
+            cardElement.classList.remove('card-correct');
 
             const isFilled = userInput !== '';
             const isCurrentlyCorrect = inputElement.dataset.correct === 'true';
 
-
             if (userInput === correctHiragana && isFilled) {
-                // Jawaban Benar
                 inputElement.classList.add('input-correct');
                 artiIdElement.classList.remove('hidden');
-                artiEnElement.classList.remove('hidden'); // Tampilkan arti Inggris juga
-                cardElement.classList.remove('bg-white');
+                artiEnElement.classList.remove('hidden');
                 cardElement.classList.add('card-correct');
 
                 if (!isCurrentlyCorrect) {
@@ -434,7 +983,6 @@
                     correctCount++;
                 }
             } else if (isFilled) {
-                // Jawaban Salah
                 inputElement.classList.add('input-incorrect');
                 artiIdElement.classList.add('hidden');
                 artiEnElement.classList.add('hidden');
@@ -444,7 +992,6 @@
                     correctCount--;
                 }
             } else {
-                // Input Kosong
                 artiIdElement.classList.add('hidden');
                 artiEnElement.classList.add('hidden');
                 
@@ -457,20 +1004,14 @@
             updateCountsDisplay();
         }
 
-        /**
-         * Fungsi: Menampilkan semua jawaban (mode Selesai)
-         */
         function showAllAnswers() {
-            // 1. NONAKTIFKAN INPUT
             const inputElements = document.querySelectorAll('.vocab-input');
             inputElements.forEach(input => {
                 input.disabled = true;
             });
 
-            // Ambil skor aktual yang dicapai pengguna
-            const actualUserScore = correctCount; 
+            const actualUserScore = correctCount;
 
-            // 2. REVEAL JAWABAN (perubahan visual)
             VOCABULARY_DATA.forEach((vocab, index) => {
                 const inputElement = document.getElementById(`input-${index}`);
                 const artiIdElement = document.getElementById(`arti-id-${index}`);
@@ -478,51 +1019,33 @@
                 const correctHiragana = normalizeString(vocab.hiragana);
                 const userInput = normalizeString(inputElement.value);
 
-                // Pastikan arti selalu terlihat
                 artiIdElement.classList.remove('hidden');
-                artiEnElement.classList.remove('hidden'); // Tampilkan arti Inggris juga
+                artiEnElement.classList.remove('hidden');
                 
-                // Jika input salah atau kosong, isi dengan jawaban yang benar dan beri highlight kuning
                 if (userInput !== correctHiragana || inputElement.value.trim() === '') {
-                    inputElement.value = vocab.hiragana; // Menampilkan jawaban yang benar
-                    inputElement.classList.remove('input-correct', 'input-incorrect', 'border-gray-300');
-                    // Menggunakan highlight kuning untuk jawaban yang dibuka
-                    inputElement.classList.add('bg-yellow-100', 'border-yellow-500', 'text-gray-800'); 
-                    
+                    inputElement.value = vocab.hiragana;
+                    inputElement.classList.remove('input-correct', 'input-incorrect');
+                    inputElement.classList.add('input-revealed');
                 } else {
-                     // Jika sudah benar, pertahankan warna hijau
-                    inputElement.classList.remove('border-gray-300');
                     inputElement.classList.add('input-correct');
-                    document.getElementById(`card-${index}`).classList.remove('bg-white');
                     document.getElementById(`card-${index}`).classList.add('card-correct');
                 }
-                // Atur status agar tidak bisa diubah lagi
-                inputElement.dataset.correct = 'completed'; 
+                inputElement.dataset.correct = 'completed';
             });
 
-            // 3. UPDATE STATUS UI/HEADER & NOTIFIKASI
             isComplete = true;
             showCompletionNotification(actualUserScore);
             
-            // Set hitungan yang ditampilkan di header: Skor asli, dan sisanya (yang sekarang sudah diisi) adalah 0
             document.getElementById('correct-count-display').textContent = actualUserScore;
-            document.getElementById('empty-count-display').textContent = 0; 
-
-            // 4. NONAKTIFKAN TOMBOL ATAS
+            document.getElementById('empty-count-display').textContent = 0;
             document.getElementById('action-button').disabled = true;
             document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
-            
-            // 5. TAMPILKAN TOMBOL ULANGI KUIS DI BAWAH
             document.getElementById('bottom-action-container').classList.remove('hidden');
         }
 
-        /**
-         * Merender semua kartu kosakata ke DOM
-         */
         function renderQuiz() {
-            // 1. Acak Data dan Inisialisasi Hitungan
-            VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA]; // Ambil salinan
-            shuffleArray(VOCABULARY_DATA); // Acak urutan
+            VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA];
+            shuffleArray(VOCABULARY_DATA);
             totalCount = VOCABULARY_DATA.length;
             correctCount = 0;
             emptyCount = totalCount;
@@ -530,73 +1053,63 @@
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
             
-            // 2. Render Kartu
             VOCABULARY_DATA.forEach((vocab, index) => {
                 const card = document.createElement('div');
                 card.id = `card-${index}`;
-                // Menambahkan kelas quiz-card dan hover yang lebih halus
-                card.className = 'quiz-card bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:-translate-y-1';
+                card.className = 'quiz-card';
                 
                 card.innerHTML = `
-                    <div class="mb-4 border-b border-gray-100 pb-3">
-                        <p class="text-xs font-semibold text-indigo-500 uppercase">Kanji</p>
-                        <!-- Mengatur ukuran font lebih kecil untuk frasa panjang agar tidak terlalu besar di ponsel -->
-                        <h3 class="text-3xl font-extrabold text-gray-800 sm:text-4xl">${vocab.kanji}</h3>
+                    <div class="kanji-section">
+                        <p class="kanji-label">Kanji</p>
+                        <h3 class="kanji-text">${vocab.kanji}</h3>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="input-${index}" class="block text-xs font-semibold text-gray-500 uppercase mb-1">Input Hiragana/Katakana</label>
+                    <div class="input-section">
+                        <label for="input-${index}" class="input-label">Input Hiragana/Katakana</label>
                         <input
                             type="text"
                             id="input-${index}"
                             data-correct="false"
                             onkeyup="checkAnswer(${index}, this)"
                             placeholder="Tulis cara baca di sini..."
-                            class="vocab-input w-full p-3 border-2 border-gray-300 rounded-lg text-xl font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out"
+                            class="vocab-input"
                             autocomplete="off"
                         />
                     </div>
                     
-                    <!-- Arti Bahasa Indonesia -->
-                    <div id="arti-id-${index}" class="hidden bg-emerald-100 p-3 rounded-lg border-l-4 border-emerald-500 transition-all duration-300 mb-2">
-                        <p class="text-xs font-semibold text-emerald-700 uppercase">Arti Kata (ID)</p>
-                        <p class="text-gray-800 font-medium">${vocab.arti}</p>
+                    <div id="arti-id-${index}" class="meaning-box meaning-id hidden">
+                        <p class="meaning-label">Arti Kata (ID)</p>
+                        <p class="meaning-text">${vocab.arti}</p>
                     </div>
 
-                    <!-- Arti Bahasa Inggris (BARU) -->
-                    <div id="arti-en-${index}" class="hidden bg-blue-100 p-3 rounded-lg border-l-4 border-blue-500 transition-all duration-300">
-                        <p class="text-xs font-semibold text-blue-700 uppercase">Meaning (EN)</p>
-                        <p class="text-gray-800 font-medium">${vocab.english}</p>
+                    <div id="arti-en-${index}" class="meaning-box meaning-en hidden">
+                        <p class="meaning-label">Meaning (EN)</p>
+                        <p class="meaning-text">${vocab.english}</p>
                     </div>
                 `;
                 container.appendChild(card);
             });
-            updateCountsDisplay(); // Inisialisasi hitungan di header
+            updateCountsDisplay();
         }
 
-        /**
-         * Mengatur ulang status kuis untuk mengulang
-         */
         function resetQuiz() {
-            // Panggil renderQuiz untuk mengacak dan membuat ulang kartu
-            renderQuiz(); 
+            renderQuiz();
             
             isComplete = false;
             document.getElementById('completion-notification').classList.add('hidden');
             
-            // Reset tombol aksi atas
             const actionButton = document.getElementById('action-button');
             actionButton.textContent = "Tampilkan Jawaban (Selesai)";
             actionButton.onclick = showAllAnswers;
             actionButton.disabled = false;
             actionButton.classList.remove('opacity-50', 'cursor-not-allowed');
-
-            // Sembunyikan tombol ulangi kuis di bawah
             document.getElementById('bottom-action-container').classList.add('hidden');
         }
 
-        // Panggil render saat halaman dimuat
-        window.onload = renderQuiz;
+        window.onload = function() {
+            createParticles();
+            renderQuiz();
+        };
     </script>
 </body>
 </html>
