@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minna No Nihonggo 3 - 語彙 L4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* Animated Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #0f2847, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Geometric Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            top: 10%;
+            left: 10%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            top: 60%;
+            left: 70%;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff0080, #cc0066);
+            top: 30%;
+            left: 80%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            top: 70%;
+            left: 15%;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #a000ff, #7700cc);
+            top: 15%;
+            left: 50%;
+            border-radius: 20px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+            }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Particle system */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: particleRise 15s infinite ease-in;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        @keyframes particleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header kuis */
+        .quiz-header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: headerShine 3s infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .quiz-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .quiz-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Tombol kembali ke homepage */
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Summary stats box */
+        .stats-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-group {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-correct { color: #00ff88; }
+        .stat-empty { color: #ff0080; }
+        .stat-total { color: #00d4ff; }
+
+        /* Action button */
+        .action-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Completion notification */
+        .completion-notification {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 4px solid #ffaa00;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .completion-notification p {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .completion-notification .score {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Quiz grid */
+        .quiz-container {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            margin-top: 2rem;
+        }
+
+        /* Quiz card */
+        .quiz-card {
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tech corner accents */
+        .quiz-card::before,
+        .quiz-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00d4ff;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .quiz-card::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .quiz-card::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .quiz-card:hover::before,
+        .quiz-card:hover::after {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+
+        .quiz-card.card-correct {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Kanji section */
+        .kanji-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .kanji-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .kanji-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Input section */
+        .input-section {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .vocab-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(15, 40, 71, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .vocab-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .vocab-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(15, 40, 71, 0.8);
+        }
+
+        .vocab-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Input feedback states */
+        .input-correct {
+            border-color: #00ff88 !important;
+            background: rgba(0, 255, 136, 0.1) !important;
+            color: #00ff88 !important;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
+        }
+
+        .input-incorrect {
+            border-color: #ff0080 !important;
+            background: rgba(255, 0, 128, 0.1) !important;
+            color: #ff0080 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.3) !important;
+        }
+
+        .input-revealed {
+            border-color: #ffaa00 !important;
+            background: rgba(255, 170, 0, 0.1) !important;
+            color: #ffaa00 !important;
+        }
+
+        /* Meaning boxes */
+        .meaning-box {
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .meaning-id {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+        }
+
+        .meaning-en {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .meaning-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meaning-id .meaning-label {
+            color: #00ff88;
+        }
+
+        .meaning-en .meaning-label {
+            color: #00d4ff;
+        }
+
+        .meaning-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Reset button */
+        .reset-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            color: #0a0e27;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-button:hover {
+            background: linear-gradient(135deg, #00cc6f, #00ff88);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Bottom action container */
+        .bottom-action {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-box {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .kanji-text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Tombol kembali -->
+        <a href="index.html" class="back-button">← Kembali ke Homepage</a>
+
+        <!-- Header kuis -->
+        <div class="quiz-header">
+            <h1>Minna No Nihonggo 3 - Kotoba L4</h1>
+            <p>Tuliskan hiragana/Katakana (cara baca) yang benar.</p>
+        </div>
+
+        <!-- Stats box -->
+        <div class="stats-box">
+            <div class="stats-group">
+                <div class="stat-item">
+                    <p id="correct-count-display" class="stat-number stat-correct">0</p>
+                    <p class="stat-label">Benar</p>
+                </div>
+                <div class="stat-item">
+                    <p id="empty-count-display" class="stat-number stat-empty">0</p>
+                    <p class="stat-label">Kosong</p>
+                </div>
+                <div class="stat-item">
+                    <p id="total-count-display" class="stat-number stat-total">0</p>
+                    <p class="stat-label">Total</p>
+                </div>
+            </div>
+            
+            <button onclick="showAllAnswers()" id="action-button" class="action-button">
+                Selesaikan Quiz!
+            </button>
+        </div>
+
+        <!-- Completion notification -->
+        <div id="completion-notification" class="completion-notification hidden">
+            <p>Kuis Selesai! Skor Anda:</p>
+            <p class="score">
+                <span id="notification-correct-count">0</span> Benar 
+                dari 
+                <span id="notification-total-count">0</span> Kata
+            </p>
+            <p>Anda sekarang dapat meninjau semua jawaban di bawah.</p>
+        </div>
+
+        <!-- Quiz container -->
+        <div id="quiz-container" class="quiz-container">
+            <!-- Kartu akan di-inject oleh JavaScript -->
+        </div>
+
+        <!-- Bottom reset button -->
+        <div id="bottom-action-container" class="bottom-action hidden">
+            <button onclick="resetQuiz()" class="reset-button">
+                Ulangi Kuis!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data Kosakata L4
+        const MASTER_VOCABULARY_DATA = [
+            { kanji: 'いつもお世話になっております。', hiragana: 'いつもおせわになっております。', arti: 'Kami sangat berterima kasih/berhutang budi kepada Anda. (Ungkapan formal)', english: 'We are much obliged to you.' },
+            { kanji: 'あいにく・・・。', hiragana: 'あいにく・・・。', arti: 'Sayangnya....', english: 'Unfortunately....' },
+            { kanji: '恐れ入りますが、・・・。', hiragana: 'おそれいりますが、・・・。', arti: 'Maafkan saya/Mohon maaf (telah meminta), tapi.... ', english: 'Excuse me for asking, but....' },
+            { kanji: 'このままでよろしければ・・・。', hiragana: 'このままでよろしければ・・・。', arti: 'Jika tidak apa-apa seperti ini/keadaan ini....', english: 'If it is all right the way it is....' },
+            { kanji: '伝言を承っております。', hiragana: 'でんごんをうけたまわっております。', arti: 'Pesan Anda telah kami rekam/terima.', english: 'Your message has been recorded.' },
+            { kanji: '済む', hiragana: 'すむ', arti: 'Maaf.', english: 'Sorry.' },
+            { kanji: '調べる', hiragana: 'しらべる', arti: 'memeriksa, menginspeksi', english: 'examine, inspect' },
+            { kanji: '明日', hiragana: 'あした', arti: 'besok', english: 'tomorrow' },
+            { kanji: '能力', hiragana: 'のうりょく', arti: 'kemampuan', english: 'capability' },
+            { kanji: 'バザー', hiragana: 'バザー', arti: 'bazar', english: 'bazaar' },
+            { kanji: 'マスク', hiragana: 'マスク', arti: 'masker (hidung dan mulut)', english: 'nose and mouth mask' },
+            { kanji: 'スーツケース', hiragana: 'スーツケース', arti: 'koper', english: 'suitcase' },
+            { kanji: '気づく', hiragana: 'きづく', arti: 'terbangun, menyadari', english: 'wake up, realize' },
+            { kanji: '朝礼', hiragana: 'ちょうれい', arti: 'apel pagi', english: 'morning meeting' },
+            { kanji: '校歌', hiragana: 'こうか', arti: 'lagu sekolah', english: 'school song' },
+            { kanji: '敬語', hiragana: 'けいご', arti: 'bahasa hormat', english: 'honorific language' },
+            { kanji: '感想', hiragana: 'かんそう', arti: 'ulasan/karangan kesan (misalnya tentang buku)', english: 'review (e.g., of a book one has read)' },
+            { kanji: '運動場', hiragana: 'うんどうじょう', arti: 'lapangan olahraga', english: 'sports ground' },
+            { kanji: 'いたずら', hiragana: 'いたずら', arti: 'kenakalan, ulah iseng', english: 'prank' },
+            { kanji: '美しい', hiragana: 'うつくしい', arti: 'indah', english: 'beautiful' },
+            { kanji: '世紀', hiragana: 'せいき', arti: 'abad', english: 'century' },
+            { kanji: '平和 [な]', hiragana: 'へいわ [な]', arti: 'damai', english: 'peaceful' },
+            { kanji: '人々', hiragana: 'ひとびと', arti: 'orang-orang', english: 'people' },
+            { kanji: '願う', hiragana: 'ねがう', arti: 'mengharapkan, mendoakan', english: 'desire, wish for, hope for' },
+            { kanji: '文', hiragana: 'ぶん', arti: 'kalimat, gaya tulisan', english: 'sentence, style' },
+            { kanji: '書き直す', hiragana: 'かきなおす', arti: 'menulis ulang', english: 'rewrite' },
+            { kanji: '合わせる', hiragana: 'あわせる', arti: 'menggabungkan', english: 'combine' },
+            { kanji: '元々', hiragana: 'もともと', arti: 'asalnya, pada mulanya', english: 'originally' },
+            { kanji: '若者', hiragana: 'わかもの', arti: 'orang muda, remaja', english: 'young person' },
+            { kanji: '湖の', hiragana: 'みずうみの', arti: 'danau の', english: 'lake ?' },
+            { kanji: '深い', hiragana: 'ふかい', arti: 'dalam', english: 'deep' },
+            { kanji: 'さまざま [な]', hiragana: 'さまざま [な]', arti: 'bermacam-macam', english: 'various' },
+            { kanji: '苦しい [暮らし]', hiragana: 'くるしい [くらし]', arti: 'sulit, susah [kehidupan yang ~]', english: 'hard' },
+            { kanji: '性格', hiragana: 'せいかく', arti: 'karakter, sifat', english: 'character' },
+            { kanji: '人気者', hiragana: 'にんきもの', arti: 'orang populer/terkenal', english: 'popular person' },
+            { kanji: '時代', hiragana: 'じだい', arti: 'periode, era, zaman', english: 'period, era, times' },
+            { kanji: '順番', hiragana: 'じゅんばん', arti: 'secara berurutan', english: 'in sequence' },
+            { kanji: '失礼 [な]', hiragana: 'しつれい [な]', arti: 'tidak sopan, kasar', english: 'rude' },
+            { kanji: '勧める', hiragana: 'すすめる', arti: 'merekomendasikan, menyarankan', english: 'recommend' },
+            { kanji: '怒りだす', hiragana: 'おこりだす', arti: 'marah', english: 'get angry' },
+            { kanji: '味わう', hiragana: 'あじわう', arti: 'mengalami, merasakan', english: 'experience, taste' },
+            { kanji: 'つなぐ', hiragana: 'つなぐ', arti: 'menggenggam (tangan), menghubungkan (saluran)', english: 'hold (hands), connect (lines)' },
+            { kanji: 'エピソード', hiragana: 'エピソード', arti: 'episode', english: 'episode' },
+            { kanji: '大嫌い', hiragana: 'だいきらい', arti: 'sangat tidak suka, benci', english: 'hate' },
+            { kanji: '大 [好き/嫌い]', hiragana: 'だい [すき/きらい]', arti: 'sangat [suka/tidak suka]', english: 'greatly [like/dislike]' },
+            { kanji: 'しつこい', hiragana: 'しつこい', arti: 'gigih, terus-menerus', english: 'persistent' },
+            { kanji: '全員', hiragana: 'ぜんいん', arti: 'semua orang, seluruh anggota', english: 'everyone' },
+            { kanji: '数日', hiragana: 'すうじつ', arti: 'beberapa hari', english: 'a few days' },
+            { kanji: '親戚', hiragana: 'しんせき', arti: 'kerabat', english: 'relative' },
+            { kanji: '接する', hiragana: 'せっする', arti: 'menghubungkan', english: 'connect' },
+            { kanji: '申し出る', hiragana: 'もうしでる', arti: 'menawarkan, mengajukan', english: 'offer, propose' },
+            { kanji: '結局', hiragana: 'けっきょく', arti: 'pada akhirnya', english: 'in the end' },
+            { kanji: 'すぐさま', hiragana: 'すぐさま', arti: 'segera, tanpa basa-basi', english: 'immediately' },
+            { kanji: 'そば', hiragana: 'そば', arti: 'di samping', english: 'beside' },
+            { kanji: '取り付ける', hiragana: 'とりつける', arti: 'memasang', english: 'install' },
+            { kanji: '出席者', hiragana: 'しゅっせきしゃ', arti: 'peserta, hadirin', english: 'attendee' },
+            { kanji: '料金', hiragana: 'りょうきん', arti: 'biaya, tarif', english: 'fee, charge' },
+            { kanji: '多数', hiragana: 'たすう', arti: 'banyak', english: 'many' },
+            { kanji: '心配 [な]', hiragana: 'しんぱい [な]', arti: 'cemas, khawatir', english: 'worried' },
+            { kanji: '発売 [する]', hiragana: 'はつばい [する]', arti: '[produk] mulai dijual', english: '[product] come on sale' },
+            { kanji: '雷', hiragana: 'かみなり', arti: 'guntur, petir', english: 'thunder' },
+            { kanji: '我々', hiragana: 'われわれ', arti: 'kami, kita (bandingkan: anak-anak saya)', english: 'we, us (cf. 我が子: my children)' },
+            { kanji: '残念 [な]', hiragana: 'ざんねん [な]', arti: 'mengecewakan, disayangkan', english: 'disappointing, regrettable' },
+            { kanji: '受け止める', hiragana: 'うけとめる', arti: 'menerima, mengakui', english: 'accept' },
+            { kanji: '実際', hiragana: 'じっさい', arti: 'fakta, kenyataan', english: 'fact, reality' },
+            { kanji: '愛する', hiragana: 'あいする', arti: 'mencintai', english: 'love' },
+            { kanji: '首都', hiragana: 'しゅと', arti: 'ibu kota', english: 'capital (city)' },
+            { kanji: '伝言', hiragana: 'でんごん', arti: 'pesan', english: 'message' },
+            { kanji: '留守番電話', hiragana: 'るすばんでんわ', arti: 'telepon penjawab, pesan suara', english: 'answerphone, voicemail' },
+            { kanji: 'メッセージ', hiragana: 'メッセージ', arti: 'pesan', english: 'message' },
+            { kanji: '受けます [伝言を]', hiragana: 'うけます [でんごんを]', arti: 'menerima [pesan]', english: 'receive [a message]' },
+            { kanji: '残します [伝言を]', hiragana: 'のこします [でんごんを]', arti: 'meninggalkan/memberikan [pesan]', english: 'leave [a message]' },
+            { kanji: 'かけ直します [電話を]', hiragana: 'かけなおします [でんわを]', arti: 'memberikan/melakukan [panggilan]', english: 'give [a call]' },
+            { kanji: 'そういう', hiragana: 'そういう', arti: 'seperti itu (bandingkan: seperti ini)', english: 'like that (cf. こういう: like this)' },
+            { kanji: '出る [電話に]', hiragana: 'でる [でんわに]', arti: 'menjawab [telepon]', english: 'answer [the telephone]' },
+            { kanji: '急 [な]', hiragana: 'きゅう [な]', arti: 'mendesak, tiba-tiba', english: 'urgent' },
+            { kanji: '入ります [仕事が]', hiragana: 'はいります [しごとが]', arti: '[pekerjaan] masuk/datang', english: '[work] come in' },
+            { kanji: 'キャンセル', hiragana: 'キャンセル', arti: 'membatalkan, menghapus', english: 'cancel, erase' },
+            { kanji: '来客中', hiragana: 'らいきゃくちゅう', arti: 'sedang kedatangan tamu', english: 'with a visitor' },
+            { kanji: 'トースト', hiragana: 'トースト', arti: 'roti tawar', english: 'bread' },
+            { kanji: '売り切れ', hiragana: 'うりきれ', arti: 'terjual habis', english: 'sold out' },
+            { kanji: 'セールする', hiragana: 'セールする', arti: 'obral (murah)', english: '(bargain) sale' },
+            { kanji: '招待状', hiragana: 'しょうたいじょう', arti: 'undangan (tertulis)', english: '(written) invitation' },
+            { kanji: '状', hiragana: 'じょう', arti: 'surat, catatan, kartu [undangan]', english: 'letter, note, card [of invitation]' },
+            { kanji: '遠い [電話の声が]', hiragana: 'とおい [でんわのこえが]', arti: 'sayup-sayup, sulit didengar [suara di telepon]', english: 'faint, hard to hear [voice on telephone]' },
+            { kanji: '嫌う', hiragana: 'きらう', arti: 'tidak suka, benci', english: 'dislike' },
+        ];
+
+        let VOCABULARY_DATA = [];
+        let correctCount = 0;
+        let totalCount = 0;
+        let isComplete = false;
+        let emptyCount = 0;
+        let isQuizStarted = false;
+
+        // Create particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function normalizeString(str) {
+            if (typeof str !== 'string') return '';
+            str = str.replace(/[\u30a1-\u30ff]/g, function(k) {
+                return String.fromCharCode(k.charCodeAt(0) - 0x60);
+            });
+            return str.toLowerCase().trim();
+        }
+
+        function updateCountsDisplay() {
+            emptyCount = 0;
+            const inputElements = document.querySelectorAll('.vocab-input');
+            
+            inputElements.forEach(input => {
+                if (input.value.trim() === '') {
+                    emptyCount++;
+                }
+            });
+
+            document.getElementById('correct-count-display').textContent = correctCount;
+            document.getElementById('empty-count-display').textContent = emptyCount;
+            document.getElementById('total-count-display').textContent = totalCount;
+            document.getElementById('notification-total-count').textContent = totalCount;
+
+            if (isQuizStarted && correctCount === totalCount && emptyCount === 0 && !isComplete) {
+                isComplete = true;
+                showCompletionNotification(correctCount);
+                
+                document.getElementById('action-button').disabled = true;
+                document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('bottom-action-container').classList.remove('hidden');
+            } else if (correctCount < totalCount && isComplete) {
+                isComplete = false;
+                document.getElementById('completion-notification').classList.add('hidden');
+                
+                document.getElementById('action-button').disabled = false;
+                document.getElementById('action-button').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('bottom-action-container').classList.add('hidden');
+            }
+        }
+
+        function showCompletionNotification(score) {
+            document.getElementById('notification-correct-count').textContent = score;
+            document.getElementById('completion-notification').classList.remove('hidden');
+        }
+
+        function checkAnswer(index, inputElement) {
+            if (!isQuizStarted) {
+                isQuizStarted = true;
+            }
+
+            if (inputElement.dataset.correct === 'completed') return;
+
+            const vocabItem = VOCABULARY_DATA[index];
+            const userInput = normalizeString(inputElement.value);
+            const correctHiragana = normalizeString(vocabItem.hiragana);
+            const artiIdElement = document.getElementById(`arti-id-${index}`);
+            const artiEnElement = document.getElementById(`arti-en-${index}`);
+            const cardElement = document.getElementById(`card-${index}`);
+
+            inputElement.classList.remove('input-correct', 'input-incorrect', 'input-revealed');
+            cardElement.classList.remove('card-correct');
+
+            const isFilled = userInput !== '';
+            const wasCorrect = inputElement.dataset.correct === 'true';
+
+            if (isFilled && userInput === correctHiragana) {
+                inputElement.classList.add('input-correct');
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden');
+                cardElement.classList.add('card-correct');
+
+                if (!wasCorrect) {
+                    inputElement.dataset.correct = 'true';
+                    correctCount++;
+                }
+            } else if (isFilled && userInput !== correctHiragana) {
+                inputElement.classList.add('input-incorrect');
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (wasCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            } else {
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (wasCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            }
+            
+            if (correctCount < 0) correctCount = 0;
+            
+            updateCountsDisplay();
+        }
+
+        function showAllAnswers() {
+            const inputElements = document.querySelectorAll('.vocab-input');
+            inputElements.forEach(input => {
+                input.disabled = true;
+            });
+
+            const actualUserScore = correctCount;
+
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const inputElement = document.getElementById(`input-${index}`);
+                const artiIdElement = document.getElementById(`arti-id-${index}`);
+                const artiEnElement = document.getElementById(`arti-en-${index}`);
+                const correctHiragana = normalizeString(vocab.hiragana);
+                const userInput = normalizeString(inputElement.value);
+
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden');
+                
+                if (userInput !== correctHiragana || inputElement.value.trim() === '') {
+                    inputElement.value = vocab.hiragana;
+                    inputElement.classList.remove('input-correct', 'input-incorrect');
+                    inputElement.classList.add('input-revealed');
+                } else {
+                    inputElement.classList.add('input-correct');
+                    document.getElementById(`card-${index}`).classList.add('card-correct');
+                }
+                inputElement.dataset.correct = 'completed';
+            });
+
+            isComplete = true;
+            isQuizStarted = true;
+            showCompletionNotification(actualUserScore);
+            
+            document.getElementById('correct-count-display').textContent = actualUserScore;
+            document.getElementById('empty-count-display').textContent = 0;
+            document.getElementById('action-button').disabled = true;
+            document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('bottom-action-container').classList.remove('hidden');
+        }
+
+        function renderQuiz() {
+            VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA];
+            shuffleArray(VOCABULARY_DATA);
+            totalCount = VOCABULARY_DATA.length;
+            correctCount = 0;
+            emptyCount = totalCount;
+            isQuizStarted = false;
+            isComplete = false;
+            
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const card = document.createElement('div');
+                card.id = `card-${index}`;
+                card.className = 'quiz-card';
+                
+                card.innerHTML = `
+                    <div class="kanji-section">
+                        <p class="kanji-label">Kanji</p>
+                        <h3 class="kanji-text">${vocab.kanji}</h3>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="input-${index}" class="input-label">Input Hiragana/Katakana</label>
+                        <input
+                            type="text"
+                            id="input-${index}"
+                            data-correct="false"
+                            onkeyup="checkAnswer(${index}, this)"
+                            placeholder="Tulis cara baca di sini..."
+                            class="vocab-input"
+                            autocomplete="off"
+                        />
+                    </div>
+                    
+                    <div id="arti-id-${index}" class="meaning-box meaning-id hidden">
+                        <p class="meaning-label">Arti Kata (ID)</p>
+                        <p class="meaning-text">${vocab.arti}</p>
+                    </div>
+
+                    <div id="arti-en-${index}" class="meaning-box meaning-en hidden">
+                        <p class="meaning-label">Meaning (EN)</p>
+                        <p class="meaning-text">${vocab.english}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            updateCountsDisplay();
+        }
+
+        function resetQuiz() {
+            renderQuiz();
+            
+            isComplete = false;
+            isQuizStarted = false;
+            document.getElementById('completion-notification').classList.add('hidden');
+            
+            const actionButton = document.getElementById('action-button');
+            actionButton.textContent = "Selesaikan Quiz!";
+            actionButton.onclick = showAllAnswers;
+            actionButton.disabled = false;
+            actionButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('bottom-action-container').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            createParticles();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
