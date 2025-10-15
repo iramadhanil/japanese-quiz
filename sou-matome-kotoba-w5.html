@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>総まとめ語彙 N3 - Week 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* Animated Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #0f2847, #0a0e27);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Geometric Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            top: 10%;
+            left: 10%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            top: 60%;
+            left: 70%;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff0080, #cc0066);
+            top: 30%;
+            left: 80%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            top: 70%;
+            left: 15%;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #a000ff, #7700cc);
+            top: 15%;
+            left: 50%;
+            border-radius: 20px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-60px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+            }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Particle system */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: particleRise 15s infinite ease-in;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        @keyframes particleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header kuis */
+        .quiz-header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: headerShine 3s infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .quiz-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .quiz-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Tombol kembali ke homepage */
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Summary stats box */
+        .stats-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-group {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-correct { color: #00ff88; }
+        .stat-empty { color: #ff0080; }
+        .stat-total { color: #00d4ff; }
+
+        /* Action button */
+        .action-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #0f2847, #1a1f3a);
+            color: white;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #1a1f3a, #0f2847);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Completion notification */
+        .completion-notification {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 4px solid #ffaa00;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .completion-notification p {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .completion-notification .score {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Quiz grid */
+        .quiz-container {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            margin-top: 2rem;
+        }
+
+        /* Quiz card */
+        .quiz-card {
+            background: rgba(26, 31, 58, 0.8);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tech corner accents */
+        .quiz-card::before,
+        .quiz-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00d4ff;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .quiz-card::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .quiz-card::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .quiz-card:hover::before,
+        .quiz-card:hover::after {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+
+        .quiz-card.card-correct {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Kanji section */
+        .kanji-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .kanji-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .kanji-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Input section */
+        .input-section {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .vocab-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(15, 40, 71, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .vocab-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .vocab-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(15, 40, 71, 0.8);
+        }
+
+        .vocab-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Input feedback states */
+        .input-correct {
+            border-color: #00ff88 !important;
+            background: rgba(0, 255, 136, 0.1) !important;
+            color: #00ff88 !important;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
+        }
+
+        .input-incorrect {
+            border-color: #ff0080 !important;
+            background: rgba(255, 0, 128, 0.1) !important;
+            color: #ff0080 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.3) !important;
+        }
+
+        .input-revealed {
+            border-color: #ffaa00 !important;
+            background: rgba(255, 170, 0, 0.1) !important;
+            color: #ffaa00 !important;
+        }
+
+        /* Meaning boxes */
+        .meaning-box {
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .meaning-id {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+        }
+
+        .meaning-en {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .meaning-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meaning-id .meaning-label {
+            color: #00ff88;
+        }
+
+        .meaning-en .meaning-label {
+            color: #00d4ff;
+        }
+
+        .meaning-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Reset button */
+        .reset-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6f);
+            color: #0a0e27;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-button:hover {
+            background: linear-gradient(135deg, #00cc6f, #00ff88);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Bottom action container */
+        .bottom-action {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-box {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .kanji-text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Tombol kembali -->
+        <a href="index.html" class="back-button">← Kembali ke Homepage</a>
+
+        <!-- Header kuis -->
+        <div class="quiz-header">
+            <h1>総まとめ語彙 N3 - Week 5</h1>
+            <p>Tuliskan hiragana/Katakana (cara baca) yang benar.</p>
+        </div>
+
+        <!-- Stats box -->
+        <div class="stats-box">
+            <div class="stats-group">
+                <div class="stat-item">
+                    <p id="correct-count-display" class="stat-number stat-correct">0</p>
+                    <p class="stat-label">Benar</p>
+                </div>
+                <div class="stat-item">
+                    <p id="empty-count-display" class="stat-number stat-empty">0</p>
+                    <p class="stat-label">Kosong</p>
+                </div>
+                <div class="stat-item">
+                    <p id="total-count-display" class="stat-number stat-total">0</p>
+                    <p class="stat-label">Total</p>
+                </div>
+            </div>
+            
+            <button onclick="showAllAnswers()" id="action-button" class="action-button">
+                Selesaikan Quiz!
+            </button>
+        </div>
+
+        <!-- Completion notification -->
+        <div id="completion-notification" class="completion-notification hidden">
+            <p>Kuis Selesai! Skor Anda:</p>
+            <p class="score">
+                <span id="notification-correct-count">0</span> Benar 
+                dari 
+                <span id="notification-total-count">0</span> Kata
+            </p>
+            <p>Anda sekarang dapat meninjau semua jawaban di bawah.</p>
+        </div>
+
+        <!-- Quiz container -->
+        <div id="quiz-container" class="quiz-container">
+            <!-- Kartu akan di-inject oleh JavaScript -->
+        </div>
+
+        <!-- Bottom reset button -->
+        <div id="bottom-action-container" class="bottom-action hidden">
+            <button onclick="resetQuiz()" class="reset-button">
+                Ulangi Kuis!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data Kosakata Sou Matome Week 5
+        const MASTER_VOCABULARY_DATA = [
+            { kanji: '家族', hiragana: 'かぞく', arti: 'keluarga', english: 'family' },
+            { kanji: '夫婦', hiragana: 'ふうふ', arti: 'pasangan suami-istri; pasangan menikah', english: 'spouses; married couple' },
+            { kanji: '夫', hiragana: 'おっと', arti: 'suami', english: 'husband' },
+            { kanji: '先生', hiragana: 'せんせい', arti: 'guru', english: 'teacher' },
+            { kanji: '妻', hiragana: 'つま', arti: 'istri', english: 'wife' },
+            { kanji: '主婦', hiragana: 'しゅふ', arti: 'ibu rumah tangga', english: 'housewife; homemaker' },
+            { kanji: '長男', hiragana: 'ちょうなん', arti: 'putra sulung', english: 'the eldest son' },
+            { kanji: '次男', hiragana: 'じなん', arti: 'putra kedua', english: 'the second son' },
+            { kanji: '長女', hiragana: 'ちょうじょ', arti: 'putri sulung', english: 'the eldest daughter' },
+            { kanji: '次女', hiragana: 'じじょ', arti: 'putri kedua', english: 'the second daughter' },
+            { kanji: '三男', hiragana: 'さんなん', arti: 'putra ketiga', english: 'the third son' },
+            { kanji: 'サラリーマン', hiragana: 'サラリーマン', arti: 'pegawai kantoran', english: 'business man' },
+            { kanji: '大学生', hiragana: 'だいがくせい', arti: 'mahasiswa', english: 'college student' },
+            { kanji: '高校生', hiragana: 'こうこうせい', arti: 'siswa sekolah menengah atas', english: 'high school student' },
+            { kanji: '中学生', hiragana: 'ちゅうがくせい', arti: 'siswa sekolah menengah pertama', english: 'middle school student' },
+            { kanji: '小学生', hiragana: 'しょうがくせい', arti: 'siswa sekolah dasar', english: 'elementary school student' },
+            { kanji: '末っ子', hiragana: 'すえっこ', arti: 'anak bungsu', english: 'the youngest child' },
+            { kanji: '兄弟', hiragana: 'きょうだい', arti: 'saudara kandung', english: 'siblings' },
+            { kanji: '職場', hiragana: 'しょくば', arti: 'tempat kerja', english: 'workplace' },
+            { kanji: '上司', hiragana: 'じょうし', arti: 'atasan', english: 'boss' },
+            { kanji: '社長', hiragana: 'しゃちょう', arti: 'presiden direktur; direktur perusahaan', english: 'company president; director' },
+            { kanji: '部長', hiragana: 'ぶちょう', arti: 'manajer', english: 'manager' },
+            { kanji: '課長', hiragana: 'かちょう', arti: 'kepala bagian', english: 'chief' },
+            { kanji: '先輩', hiragana: 'せんぱい', arti: 'senior (di tempat kerja atau sekolah)', english: 'senior (at work or school)' },
+            { kanji: '後輩', hiragana: 'こうはい', arti: 'junior (di tempat kerja atau sekolah)', english: 'junior (at work or school)' },
+            { kanji: '同僚', hiragana: 'どうりょう', arti: 'rekan kerja', english: 'co-worker; colleague' },
+            { kanji: '部下', hiragana: 'ぶか', arti: 'bawahan', english: 'subordinate' },
+            { kanji: '会社員', hiragana: 'かいしゃいん', arti: 'karyawan kantor', english: 'office worker' },
+            { kanji: '姉妹', hiragana: 'しまい', arti: 'saudara perempuan', english: 'sisters' },
+            { kanji: '親戚', hiragana: 'しんせき', arti: 'kerabat', english: 'relatives' },
+            { kanji: '親類', hiragana: 'しんるい', arti: 'kerabat', english: 'relatives' },
+            { kanji: '孫', hiragana: 'まご', arti: 'cucu', english: 'grandchild' },
+            { kanji: '甥', hiragana: 'おい', arti: 'keponakan laki-laki', english: 'nephew' },
+            { kanji: '姪', hiragana: 'めい', arti: 'keponakan perempuan', english: 'niece' },
+            { kanji: 'いとこ', hiragana: 'いとこ', arti: 'sepupu', english: 'cousin' },
+            { kanji: '一人っ子', hiragana: 'ひとりっこ', arti: 'anak tunggal', english: 'an only child' },
+            { kanji: '一人息子', hiragana: 'ひとりむすこ', arti: 'putra tunggal', english: 'the only son' },
+            { kanji: '一人娘', hiragana: 'ひとりむすめ', arti: 'putri tunggal', english: 'the only daughter' },
+            { kanji: '握手', hiragana: 'あくしゅ', arti: 'jabat tangan', english: 'handshake' },
+            { kanji: '出身地', hiragana: 'しゅっしんち', arti: 'tempat lahir', english: 'birthplace' },
+            { kanji: '故郷', hiragana: 'こきょう', arti: 'kampung halaman, negara; dll.', english: 'hometown, country; etc.' },
+            { kanji: '住まい', hiragana: 'すまい', arti: 'kediaman', english: 'residence' },
+            { kanji: 'どういたしまして', hiragana: 'どういたしまして', arti: 'Sama-sama; Tidak usah sungkan', english: 'You are very welcome; Don\'t mention it' },
+            { kanji: 'ごめんください', hiragana: 'ごめんください', arti: '[salam yang digunakan saat memasuki rumah seseorang]', english: '[greeting used when entering someone\'s house]' },
+            { kanji: 'どうぞおかけください', hiragana: 'どうぞおかけください', arti: 'Silakan duduk', english: 'Please sit' },
+            { kanji: 'お構いなく', hiragana: 'おかまいなく', arti: 'Jangan repot-repot', english: 'Please don\'t fuss over me.' },
+            { kanji: 'どうぞ召し上がって', hiragana: 'どうぞめしあがって', arti: 'Silakan dinikmati. (makan dan minum)', english: 'Please help yourself. (eating and drinking)' },
+            { kanji: 'いただきます。', hiragana: 'いただきます。', arti: 'Terima kasih. Saya akan makan/minum.', english: 'Thank you. I will have some.' },
+            { kanji: 'お久しぶり', hiragana: 'おひさしぶり', arti: 'Sudah lama tidak bertemu', english: 'It\'s been a long time since we saw each other.' },
+            { kanji: 'おかげさまで', hiragana: 'おかげさまで', arti: '(Saya baik-baik saja) terima kasih', english: '(I\'m fine) thank you' },
+            { kanji: 'ご主人', hiragana: 'ごしゅじん', arti: 'suami Anda/dia', english: 'your/her husband' },
+            { kanji: '亡くなる', hiragana: 'なくなる', arti: 'meninggal dunia', english: 'to die' },
+            { kanji: 'ではまた(明日)', hiragana: 'ではまた(あした)', arti: 'Sampai jumpa besok!', english: 'See you tomorrow!' },
+            { kanji: 'お目にかかる', hiragana: 'おめにかかる', arti: 'bertemu (seseorang yang statusnya lebih tinggi)', english: 'to meet (someone of higher status)' },
+            { kanji: 'それはお気の毒に', hiragana: 'それはおきのどくに', arti: 'Saya turut prihatin mendengarnya.', english: 'I am really sorry to hear that.' },
+            { kanji: 'お疲れ様', hiragana: 'おつかれさま', arti: 'Terima kasih atas kerja keras Anda', english: 'Thanks for your hard work' },
+            { kanji: 'ご苦労様(です)', hiragana: 'ごくろうさま(です)', arti: 'Terima kasih atas kerja keras Anda', english: 'Thanks for your hard work' },
+            { kanji: '丁寧(な)', hiragana: 'ていねい(な)', arti: 'sopan', english: 'polite' },
+            { kanji: '素直(な)', hiragana: 'すなお(な)', arti: 'jujur', english: 'honest' },
+            { kanji: '優しい', hiragana: 'やさしい', arti: 'lembut; jujur', english: 'gentle' },
+            { kanji: '真面目(な)', hiragana: 'まじめ(な)', arti: 'polos', english: 'innocent' },
+            { kanji: '本音', hiragana: 'ほんね', arti: 'pendapat yang tulus', english: 'genuine opnion' },
+            { kanji: 'ださい', hiragana: 'ださい', arti: 'tidak keren', english: 'not cool' },
+            { kanji: 'かっこ悪い', hiragana: 'かっこわるい', arti: 'tidak keren', english: 'not cool' },
+            { kanji: '勇気', hiragana: 'ゆうき', arti: 'keberanian', english: 'bravery' },
+            { kanji: 'ユーモア', hiragana: 'ユーモア', arti: 'humor', english: 'humor' },
+            { kanji: '積極的(な)', hiragana: 'せっきょくてき(な)', arti: 'positif; proaktif', english: 'positive' },
+            { kanji: '消極的(な)', hiragana: 'しょうきょくてき(な)', arti: 'negatif; pasif', english: 'negative' },
+            { kanji: '落ち着いた', hiragana: 'おちついた', arti: 'berwibawa; tenang', english: 'self-possessed' },
+            { kanji: 'おとなしい', hiragana: 'おとなしい', arti: 'pendiam; kalem', english: 'quiet' },
+            { kanji: '勤勉(な)', hiragana: 'きんべん(な)', arti: 'rajin; serius', english: 'diligent' },
+            { kanji: 'のんびりした', hiragana: 'のんびりした', arti: 'santai', english: 'easy-going' },
+            { kanji: 'ハンサム(な)', hiragana: 'ハンサム(な)', arti: 'tampan', english: 'good-looking' },
+            { kanji: '美人', hiragana: 'びじん', arti: 'wanita cantik', english: 'beautiful woman' },
+            { kanji: 'スリム(な)', hiragana: 'スリム(な)', arti: 'langsing', english: 'slim' },
+            { kanji: '意地悪(な)', hiragana: 'いじわる(な)', arti: 'jahat', english: 'mean' },
+            { kanji: '意地悪する', hiragana: 'いじわるする', arti: 'bertingkah jahat', english: 'to be nasty' },
+            { kanji: 'うそをつく', hiragana: 'うそをつく', arti: 'berbohong', english: 'to lie' },
+            { kanji: 'うそつき', hiragana: 'うそつき', arti: 'pembohong', english: 'liar' },
+            { kanji: 'ずるい', hiragana: 'ずるい', arti: 'curang; tidak adil', english: 'dishonest; unfair' },
+            { kanji: '生意気(な)', hiragana: 'なまいき(な)', arti: 'kurang ajar', english: 'insolent' },
+            { kanji: 'しつこい', hiragana: 'しつこい', arti: 'mengganggu; gigih', english: 'pesky; persistent' },
+            { kanji: 'いい加減(な)', hiragana: 'いいかげん(な)', arti: 'ceroboh', english: 'sloppy' },
+            { kanji: 'けち(な)', hiragana: 'けち(な)', arti: 'pelit', english: 'stingy' },
+            { kanji: '無責任(な)', hiragana: 'むせきにん(な)', arti: 'tidak bertanggung jawab; sembarangan', english: 'irresponsible' },
+            { kanji: 'でたらめ(な)', hiragana: 'でたらめ(な)', arti: 'tidak bertanggung jawab', english: 'irresponsible' },
+            { kanji: 'でたらめを言う', hiragana: 'でたらめをいう', arti: 'berbicara omong kosong', english: 'to talk nonsense' },
+            { kanji: 'でたらめはいい加減に', hiragana: 'でたらめはいいかげんに', arti: 'Cukup omong kosong!', english: 'Enough nonsense!' },
+            { kanji: '調子', hiragana: 'ちょうし', arti: 'kondisi; keadaan kesehatan', english: 'condition; state of health' },
+            { kanji: '具合', hiragana: 'ぐあい', arti: 'kondisi; keadaan kesehatan', english: 'condition; state of health' },
+            { kanji: 'めまい', hiragana: 'めまい', arti: 'pusing', english: 'dizziness' },
+            { kanji: 'めまいがする', hiragana: 'めまいがする', arti: 'merasa pusing', english: 'to feel dizzy' },
+            { kanji: '頭痛', hiragana: 'ずつう', arti: 'sakit kepala', english: 'headache' },
+            { kanji: '頭痛がする', hiragana: 'ずつうがする', arti: 'sakit kepala', english: 'to have a headache' },
+            { kanji: '腹', hiragana: 'はら', arti: 'perut', english: 'stomach' },
+            { kanji: '腰', hiragana: 'こし', arti: 'punggung; punggung bawah', english: 'back; lower back' },
+            { kanji: '息', hiragana: 'いき', arti: 'napas', english: 'breath' },
+            { kanji: '苦しい', hiragana: 'くるしい', arti: 'menyakitkan; sesak', english: 'painful' },
+            { kanji: '息が苦しい', hiragana: 'いきがくるしい', arti: 'merasa sesak napas', english: 'to feel suffocated' },
+            { kanji: '痛む', hiragana: 'いたむ', arti: 'merasa sakit; menderita', english: 'to be in pain' },
+            { kanji: '詰まる', hiragana: 'つまる', arti: 'tersumbat', english: 'to be blocked' },
+            { kanji: '鼻が詰まる', hiragana: 'はながつまる', arti: 'hidung tersumbat', english: 'nose is stuffed up' },
+            { kanji: 'かむ', hiragana: 'かむ', arti: 'membuang (ingus)', english: 'to blow (one\'s nose)' },
+            { kanji: '吐き気', hiragana: 'はきけ', arti: 'mual', english: 'nausea; sickness in the stomach' },
+            { kanji: '吐き気がする', hiragana: 'はきけがする', arti: 'merasa mual', english: 'to feel sick; nauseous' },
+            { kanji: '気持ちが悪い', hiragana: 'きもちがわるい', arti: 'merasa mual', english: 'to feel sick' },
+            { kanji: '吐く', hiragana: 'はく', arti: 'muntah', english: 'to vomit' },
+            { kanji: 'かゆい', hiragana: 'かゆい', arti: 'gatal', english: 'itchy' },
+            { kanji: 'かく', hiragana: 'かく', arti: 'menggaruk', english: 'to rub' },
+            { kanji: '風邪がひどい', hiragana: 'かぜがひどい', arti: 'merasa tidak enak badan karena pilek', english: 'to feel terrible because of one\'s cold' },
+            { kanji: 'アレルギー', hiragana: 'アレルギー', arti: 'alergi', english: 'allergy' },
+            { kanji: '患者', hiragana: 'かんじゃ', arti: 'pasien', english: 'a patient' },
+            { kanji: '看護師', hiragana: 'かんごし', arti: 'perawat', english: 'nurse' },
+            { kanji: 'お大事に', hiragana: 'おだいじに', arti: 'Terima kasih atas bantuan baik Anda.', english: 'Thank you for your kind help.' },
+            { kanji: 'お大事にどうぞ', hiragana: 'おだいじにどうぞ', arti: 'Semoga cepat sembuh.', english: 'I hope you will get better soon.' },
+            { kanji: '専門医', hiragana: 'せんもんい', arti: 'dokter spesialis', english: 'specialist (doctor)' },
+            { kanji: '花粉症', hiragana: 'かふんしょう', arti: 'hay fever (alergi serbuk sari)', english: 'hay fever' },
+            { kanji: '花粉症にかかる', hiragana: 'かふんしょうにかかる', arti: 'menderita hay fever', english: 'to suffer from hay fever' },
+            { kanji: '診察', hiragana: 'しんさつ', arti: 'pemeriksaan medis', english: 'medical examination' },
+            { kanji: 'うがいする', hiragana: 'うがいする', arti: 'berkumur', english: 'to gurgle' },
+            { kanji: '歯医者', hiragana: 'はいしゃ', arti: 'dokter gigi', english: 'dentist' },
+            { kanji: '治る', hiragana: 'なおる', arti: 'menyembuhkan', english: 'to cure; to heal' },
+            { kanji: 'インフルエンザにかかる', hiragana: 'インフルエンザにかかる', arti: 'terkena flu', english: 'to get the flu' },
+            { kanji: '傷', hiragana: 'きず', arti: 'luka', english: 'cut; wound' },
+            { kanji: '症状', hiragana: 'しょうじょう', arti: 'gejala', english: 'symptoms' },
+            { kanji: 'やけどする', hiragana: 'やけどする', arti: 'terbakar', english: 'to get burned' },
+            { kanji: '注射', hiragana: 'ちゅうしゃ', arti: 'suntikan', english: 'shot; injection' },
+            { kanji: '大したことない', hiragana: 'たいしたことない', arti: 'bukan masalah besar', english: 'not a big deal' },
+            { kanji: '手術', hiragana: 'しゅじゅつ', arti: 'operasi (bedah)', english: '(surgical) operation' },
+            { kanji: 'まだまだだけどまし', hiragana: 'まだまだだけどまし', arti: 'masih buruk tapi lebih baik', english: 'still bad but better' },
+            { kanji: '痛み', hiragana: 'いたみ', arti: 'rasa sakit', english: 'pain' },
+            { kanji: '我慢する', hiragana: 'がまんする', arti: 'menahan; menanggung', english: 'to endure' },
+            { kanji: '(お)見舞いする', hiragana: '(お)みまいする', arti: 'menjenguk orang sakit', english: 'to visit a sick person' },
+            { kanji: '鼻水', hiragana: 'はなみず', arti: 'ingus', english: 'mucus' },
+            { kanji: 'ため息', hiragana: 'ためいき', arti: 'hela napas', english: 'sigh' },
+            { kanji: 'ため息をつく', hiragana: 'ためいきをつく', arti: 'menghela napas', english: 'to sigh' },
+            { kanji: '涙', hiragana: 'なみだ', arti: 'air mata', english: 'tear' },
+            { kanji: '泣く', hiragana: 'なく', arti: 'menangis', english: 'to weep' },
+            { kanji: '汗', hiragana: 'あせ', arti: 'keringat', english: 'sweat' },
+            { kanji: '汗をかく', hiragana: 'あせをかく', arti: 'berkeringat', english: 'to sweat' },
+            { kanji: '汗臭い', hiragana: 'あせくさい', arti: 'bau keringat', english: 'sweaty' },
+            { kanji: 'よだれ', hiragana: 'よだれ', arti: 'air liur', english: 'saliva' },
+            { kanji: '咳', hiragana: 'せき', arti: 'batuk', english: 'cough' },
+            { kanji: 'しゃっくり', hiragana: 'しゃっくり', arti: 'cegukan', english: 'hiccup' },
+            { kanji: 'くしゃみ', hiragana: 'くしゃみ', arti: 'bersin', english: 'sneeze' },
+            { kanji: 'あくび', hiragana: 'あくび', arti: 'menguap', english: 'yawn' },
+            { kanji: 'げっぷ', hiragana: 'げっぷ', arti: 'sendawa', english: 'burp' },
+            { kanji: 'おなら', hiragana: 'おなら', arti: 'kentut', english: 'gas' },
+            { kanji: '体重', hiragana: 'たいじゅう', arti: 'berat badan', english: 'body weight' },
+            { kanji: '体重が増える', hiragana: 'たいじゅうがふえる', arti: 'berat badan bertambah', english: 'to put on weight' },
+            { kanji: '体重を増やす', hiragana: 'たいじゅうをふやす', arti: 'menambah berat badan', english: 'to increase one\'s weight' },
+            { kanji: '体重が減る', hiragana: 'たいじゅうがへる', arti: 'berat badan berkurang', english: 'to lose weight' },
+            { kanji: '体重を減らす', hiragana: 'たいじゅうをへらす', arti: 'mengurangi berat badan', english: 'to reduce one\'s weight' },
+            { kanji: 'ダイエット', hiragana: 'ダイエット', arti: 'berdiet', english: 'to diet' },
+            { kanji: 'いびき', hiragana: 'いびき', arti: 'mendengkur', english: 'to snore' },
+            { kanji: 'しびれる', hiragana: 'しびれる', arti: 'menjadi mati rasa; kesemutan', english: 'to become numb; to go to sleep (e.g. a limb)' },
+            { kanji: '震える', hiragana: 'ふるえる', arti: 'gemetar', english: 'to tremble' },
+            { kanji: 'こる', hiragana: 'こる', arti: 'menjadi kaku', english: 'to grow stiff' },
+            { kanji: '癖', hiragana: 'くせ', arti: 'kebiasaan', english: 'habit' },
+            { kanji: '癖になる', hiragana: 'くせになる', arti: 'menjadi kebiasaan', english: 'to fall into the habit of...' },
+            { kanji: '癖がつく', hiragana: 'くせがつく', arti: 'menjadi kebiasaan', english: 'to become a habit' },
+            { kanji: 'ストレスがたまる', hiragana: 'ストレスがたまる', arti: 'menjadi stres', english: 'to get stressed out' },
+            { kanji: '老いる', hiragana: 'おいる', arti: 'menjadi tua', english: 'to get old' },
+            { kanji: '爪', hiragana: 'つめ', arti: 'kuku (misalnya kuku jari tangan, kuku jari kaki)', english: 'nail (e.g. fingernail, toenail)' },
+            { kanji: '爪が伸びる', hiragana: 'つめがのびる', arti: 'kuku tumbuh', english: 'nails grow' },
+            { kanji: 'ひげが生える', hiragana: 'ひげがはえる', arti: 'jenggot tumbuh', english: 'beard grows' },
+            { kanji: '抜ける', hiragana: 'ぬける', arti: 'rontok', english: 'to fall out' },
+            { kanji: '髪の毛が抜ける', hiragana: 'かみのけがぬける', arti: 'rambut rontok', english: 'hair falls out' },
+            { kanji: '禿げる', hiragana: 'はげる', arti: 'menjadi botak', english: 'to go bald' },
+            { kanji: '染める', hiragana: 'そめる', arti: 'mewarnai', english: 'to dye' },
+            { kanji: '咲く', hiragana: 'さく', arti: 'mekar', english: 'to bloom' },
+            { kanji: '散る', hiragana: 'ちる', arti: 'gugur (misalnya bunga, daun)', english: 'to fall (e.g. blossoms, leaves)' },
+            { kanji: '枯れる', hiragana: 'かれる', arti: 'layu; mati', english: 'to wither; to die' },
+            { kanji: '崩れる', hiragana: 'くずれる', arti: 'runtuh', english: 'to collapse' },
+            { kanji: '険しい', hiragana: 'けわしい', arti: 'terjal; curam', english: 'rugged' },
+            { kanji: 'なだらか(な)', hiragana: 'なだらか(な)', arti: 'landai', english: 'gently-sloping' },
+            { kanji: '砕ける', hiragana: 'くだける', arti: 'hancur; remuk', english: 'to be smashed' },
+            { kanji: '砕く', hiragana: 'くだく', arti: 'menghancurkan; meremukkan', english: 'to crush' },
+            { kanji: '浮く', hiragana: 'うく', arti: 'mengapung', english: 'to float' },
+            { kanji: '沈む', hiragana: 'しずむ', arti: 'tenggelam', english: 'to sink' },
+            { kanji: '湿る', hiragana: 'しめる', arti: 'lembap', english: 'humid' },
+            { kanji: '腐る', hiragana: 'くさる', arti: 'membusuk', english: 'to rot' },
+            { kanji: 'かび', hiragana: 'かび', arti: 'jamur (kapang)', english: 'mold' },
+            { kanji: 'かびが生える', hiragana: 'かびがはえる', arti: 'berjamur', english: 'to get moldy' },
+            { kanji: '嫌なにおいがする', hiragana: 'いやなにおいがする', arti: 'berbau tidak enak', english: 'to stink' },
+            { kanji: 'においがする', hiragana: 'においがする', arti: '(sesuatu) berbau', english: '(something) smells' },
+            { kanji: '気持ち悪い生き物', hiragana: 'きもちわるいいきもの', arti: 'makhluk menyeramkan', english: 'a creepy creature' },
+            { kanji: '気持ちの悪い生き物', hiragana: 'きもちのわるいいきもの', arti: 'makhluk menyeramkan', english: 'a creepy creature' },
+            { kanji: '親しい', hiragana: 'したしい', arti: 'akrab (misalnya teman)', english: 'close (e.g. friend)' },
+            { kanji: '親友', hiragana: 'しんゆう', arti: 'sahabat karib', english: 'a best friend' },
+            { kanji: '怪しい', hiragana: 'あやしい', arti: 'mencurigakan', english: 'suspicious' },
+            { kanji: '恐ろしい', hiragana: 'おそろしい', arti: 'mengerikan', english: 'dreadful' },
+            { kanji: '錆びる', hiragana: 'さびる', arti: 'berkarat', english: 'to rust' },
+            { kanji: '鋭い', hiragana: 'するどい', arti: 'tajam', english: 'sharp' },
+            { kanji: '鈍い', hiragana: 'にぶい', arti: 'tumpul; tidak tajam', english: 'dull, not sharp' },
+            { kanji: '鈍い', hiragana: 'のろい', arti: 'lambat', english: 'slow' },
+            { kanji: '安全(な)', hiragana: 'あんぜん(な)', arti: 'aman', english: 'safe' },
+            { kanji: '薄暗い', hiragana: 'うすぐらい', arti: 'remang-remang', english: 'dim' },
+            { kanji: 'まぶしい', hiragana: 'まぶしい', arti: 'menyengat (cahaya); bersinar', english: 'glaring; radiant' },
+            { kanji: '詳しい', hiragana: 'くわしい', arti: 'rinci; detail', english: 'detailed' },
+            { kanji: 'つまらない', hiragana: 'つまらない', arti: 'tidak berharga; tidak berguna', english: 'worthless' },
+            { kanji: 'いい加減(な)', hiragana: 'いいかげん(な)', arti: 'serampangan; omong kosong', english: 'haphazard' },
+        ];
+
+        let VOCABULARY_DATA = [];
+        let correctCount = 0;
+        let totalCount = 0;
+        let isComplete = false;
+        let emptyCount = 0;
+        let isQuizStarted = false;
+
+        // Create particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function normalizeString(str) {
+            if (typeof str !== 'string') return '';
+            str = str.replace(/[\u30a1-\u30ff]/g, function(k) {
+                return String.fromCharCode(k.charCodeAt(0) - 0x60);
+            });
+            return str.toLowerCase().trim();
+        }
+
+        function updateCountsDisplay() {
+            emptyCount = 0;
+            const inputElements = document.querySelectorAll('.vocab-input');
+            
+            inputElements.forEach(input => {
+                if (input.value.trim() === '') {
+                    emptyCount++;
+                }
+            });
+
+            document.getElementById('correct-count-display').textContent = correctCount;
+            document.getElementById('empty-count-display').textContent = emptyCount;
+            document.getElementById('total-count-display').textContent = totalCount;
+            document.getElementById('notification-total-count').textContent = totalCount;
+
+            if (isQuizStarted && correctCount === totalCount && emptyCount === 0 && !isComplete) {
+                isComplete = true;
+                showCompletionNotification(correctCount);
+                
+                document.getElementById('action-button').disabled = true;
+                document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('bottom-action-container').classList.remove('hidden');
+            } else if (correctCount < totalCount && isComplete) {
+                isComplete = false;
+                document.getElementById('completion-notification').classList.add('hidden');
+                
+                document.getElementById('action-button').disabled = false;
+                document.getElementById('action-button').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('bottom-action-container').classList.add('hidden');
+            }
+        }
+
+        function showCompletionNotification(score) {
+            document.getElementById('notification-correct-count').textContent = score;
+            document.getElementById('completion-notification').classList.remove('hidden');
+        }
+
+        function checkAnswer(index, inputElement) {
+            if (!isQuizStarted) {
+                isQuizStarted = true;
+            }
+
+            if (inputElement.dataset.correct === 'completed') return;
+
+            const vocabItem = VOCABULARY_DATA[index];
+            const userInput = normalizeString(inputElement.value);
+            const correctHiragana = normalizeString(vocabItem.hiragana);
+            const artiIdElement = document.getElementById(`arti-id-${index}`);
+            const artiEnElement = document.getElementById(`arti-en-${index}`);
+            const cardElement = document.getElementById(`card-${index}`);
+
+            inputElement.classList.remove('input-correct', 'input-incorrect', 'input-revealed');
+            cardElement.classList.remove('card-correct');
+
+            const isFilled = userInput !== '';
+            const wasCorrect = inputElement.dataset.correct === 'true';
+
+            if (isFilled && userInput === correctHiragana) {
+                inputElement.classList.add('input-correct');
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden');
+                cardElement.classList.add('card-correct');
+
+                if (!wasCorrect) {
+                    inputElement.dataset.correct = 'true';
+                    correctCount++;
+                }
+            } else if (isFilled && userInput !== correctHiragana) {
+                inputElement.classList.add('input-incorrect');
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (wasCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            } else {
+                artiIdElement.classList.add('hidden');
+                artiEnElement.classList.add('hidden');
+                
+                if (wasCorrect) {
+                    inputElement.dataset.correct = 'false';
+                    correctCount--;
+                }
+            }
+            
+            if (correctCount < 0) correctCount = 0;
+            
+            updateCountsDisplay();
+        }
+
+        function showAllAnswers() {
+            const inputElements = document.querySelectorAll('.vocab-input');
+            inputElements.forEach(input => {
+                input.disabled = true;
+            });
+
+            const actualUserScore = correctCount;
+
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const inputElement = document.getElementById(`input-${index}`);
+                const artiIdElement = document.getElementById(`arti-id-${index}`);
+                const artiEnElement = document.getElementById(`arti-en-${index}`);
+                const correctHiragana = normalizeString(vocab.hiragana);
+                const userInput = normalizeString(inputElement.value);
+
+                artiIdElement.classList.remove('hidden');
+                artiEnElement.classList.remove('hidden');
+                
+                if (userInput !== correctHiragana || inputElement.value.trim() === '') {
+                    inputElement.value = vocab.hiragana;
+                    inputElement.classList.remove('input-correct', 'input-incorrect');
+                    inputElement.classList.add('input-revealed');
+                } else {
+                    inputElement.classList.add('input-correct');
+                    document.getElementById(`card-${index}`).classList.add('card-correct');
+                }
+                inputElement.dataset.correct = 'completed';
+            });
+
+            isComplete = true;
+            isQuizStarted = true;
+            showCompletionNotification(actualUserScore);
+            
+            document.getElementById('correct-count-display').textContent = actualUserScore;
+            document.getElementById('empty-count-display').textContent = 0;
+            document.getElementById('action-button').disabled = true;
+            document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('bottom-action-container').classList.remove('hidden');
+        }
+
+        function renderQuiz() {
+            VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA];
+            shuffleArray(VOCABULARY_DATA);
+            totalCount = VOCABULARY_DATA.length;
+            correctCount = 0;
+            emptyCount = totalCount;
+            isQuizStarted = false;
+            isComplete = false;
+            
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            VOCABULARY_DATA.forEach((vocab, index) => {
+                const card = document.createElement('div');
+                card.id = `card-${index}`;
+                card.className = 'quiz-card';
+                
+                card.innerHTML = `
+                    <div class="kanji-section">
+                        <p class="kanji-label">Kanji</p>
+                        <h3 class="kanji-text">${vocab.kanji}</h3>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="input-${index}" class="input-label">Input Hiragana/Katakana</label>
+                        <input
+                            type="text"
+                            id="input-${index}"
+                            data-correct="false"
+                            onkeyup="checkAnswer(${index}, this)"
+                            placeholder="Tulis cara baca di sini..."
+                            class="vocab-input"
+                            autocomplete="off"
+                        />
+                    </div>
+                    
+                    <div id="arti-id-${index}" class="meaning-box meaning-id hidden">
+                        <p class="meaning-label">Arti Kata (ID)</p>
+                        <p class="meaning-text">${vocab.arti}</p>
+                    </div>
+
+                    <div id="arti-en-${index}" class="meaning-box meaning-en hidden">
+                        <p class="meaning-label">Meaning (EN)</p>
+                        <p class="meaning-text">${vocab.english}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            updateCountsDisplay();
+        }
+
+        function resetQuiz() {
+            renderQuiz();
+            
+            isComplete = false;
+            isQuizStarted = false;
+            document.getElementById('completion-notification').classList.add('hidden');
+            
+            const actionButton = document.getElementById('action-button');
+            actionButton.textContent = "Selesaikan Quiz!";
+            actionButton.onclick = showAllAnswers;
+            actionButton.disabled = false;
+            actionButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('bottom-action-container').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            createParticles();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
