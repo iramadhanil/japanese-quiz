@@ -21,7 +21,7 @@
             color: #fff;
         }
 
-        /* Animated Gradient Background - SAMA dengan homepage */
+        /* Animated Gradient Background */
         body::before {
             content: '';
             position: fixed;
@@ -41,7 +41,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Floating Geometric Shapes - SAMA dengan homepage */
+        /* Floating Geometric Shapes */
         .background-shapes {
             position: fixed;
             top: 0;
@@ -339,7 +339,7 @@
             left: 100%;
         }
 
-        .action-button:hover {
+        .action-button:hover:not(:disabled) {
             background: linear-gradient(135deg, #1a1f3a, #0f2847);
             border-color: #00d4ff;
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
@@ -371,6 +371,10 @@
             font-weight: 900;
             color: #00ff88;
             text-shadow: 0 0 10px #00ff88;
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         /* Quiz grid */
@@ -535,10 +539,6 @@
             transition: all 0.3s ease;
         }
 
-        .meaning-box.hidden {
-            display: none;
-        }
-
         .meaning-id {
             background: rgba(0, 255, 136, 0.1);
             border-color: #00ff88;
@@ -600,10 +600,6 @@
             margin-bottom: 3rem;
         }
 
-        .bottom-action.hidden {
-            display: none;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -635,7 +631,7 @@
     </style>
 </head>
 <body>
-    <!-- Animated Background Elements - SAMA dengan homepage -->
+    <!-- Animated Background Elements -->
     <div class="background-shapes">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -652,7 +648,7 @@
 
         <!-- Header kuis -->
         <div class="quiz-header">
-            <h1>Minna No Nihonggo 3 - 語彙 L1</h1>
+            <h1>Minna No Nihonggo 3 - Kotoba L1</h1>
             <p>Tuliskan hiragana/Katakana (cara baca) yang benar.</p>
         </div>
 
@@ -703,7 +699,7 @@
     </div>
 
     <script>
-        // Data Kosakata (SAMA dengan kode Anda)
+        // Data Kosakata
         const MASTER_VOCABULARY_DATA = [
             // --- KOSAKATA L3 ---
             { kanji: 'インタビューする', hiragana: 'インタビューする', arti: 'wawancara', english: 'to interview' },
@@ -889,6 +885,7 @@
         let totalCount = 0;
         let isComplete = false;
         let emptyCount = 0;
+        let isQuizStarted = false; // PERBAIKAN: Flag untuk tracking apakah quiz sudah dimulai
 
         // Create particle system
         function createParticles() {
@@ -920,21 +917,26 @@
             return str.toLowerCase().trim();
         }
 
+        // PERBAIKAN: Update fungsi penghitungan dengan logika yang lebih tepat
         function updateCountsDisplay() {
             emptyCount = 0;
             const inputElements = document.querySelectorAll('.vocab-input');
+            
+            // Hitung jumlah input kosong
             inputElements.forEach(input => {
                 if (input.value.trim() === '') {
                     emptyCount++;
                 }
             });
 
+            // Update display
             document.getElementById('correct-count-display').textContent = correctCount;
             document.getElementById('empty-count-display').textContent = emptyCount;
             document.getElementById('total-count-display').textContent = totalCount;
             document.getElementById('notification-total-count').textContent = totalCount;
 
-            if (correctCount === totalCount && !isComplete) {
+            // PERBAIKAN: Hanya tampilkan notifikasi jika quiz sudah dimulai dan benar-benar selesai
+            if (isQuizStarted && correctCount === totalCount && emptyCount === 0 && !isComplete) {
                 isComplete = true;
                 showCompletionNotification(correctCount);
                 
@@ -942,6 +944,7 @@
                 document.getElementById('action-button').classList.add('opacity-50', 'cursor-not-allowed');
                 document.getElementById('bottom-action-container').classList.remove('hidden');
             } else if (correctCount < totalCount && isComplete) {
+                // Reset completion status jika ada perubahan
                 isComplete = false;
                 document.getElementById('completion-notification').classList.add('hidden');
                 
@@ -956,7 +959,13 @@
             document.getElementById('completion-notification').classList.remove('hidden');
         }
 
+        // PERBAIKAN: Logika pengecekan jawaban yang lebih akurat
         function checkAnswer(index, inputElement) {
+            // PERBAIKAN: Tandai bahwa quiz sudah dimulai saat user mulai mengetik
+            if (!isQuizStarted) {
+                isQuizStarted = true;
+            }
+
             if (inputElement.dataset.correct === 'completed') return;
 
             const vocabItem = VOCABULARY_DATA[index];
@@ -966,40 +975,48 @@
             const artiEnElement = document.getElementById(`arti-en-${index}`);
             const cardElement = document.getElementById(`card-${index}`);
 
+            // Reset classes
             inputElement.classList.remove('input-correct', 'input-incorrect', 'input-revealed');
             cardElement.classList.remove('card-correct');
 
             const isFilled = userInput !== '';
-            const isCurrentlyCorrect = inputElement.dataset.correct === 'true';
+            const wasCorrect = inputElement.dataset.correct === 'true';
 
-            if (userInput === correctHiragana && isFilled) {
+            // PERBAIKAN: Logika pengecekan yang lebih jelas
+            if (isFilled && userInput === correctHiragana) {
+                // Jawaban benar
                 inputElement.classList.add('input-correct');
                 artiIdElement.classList.remove('hidden');
                 artiEnElement.classList.remove('hidden');
                 cardElement.classList.add('card-correct');
 
-                if (!isCurrentlyCorrect) {
+                if (!wasCorrect) {
                     inputElement.dataset.correct = 'true';
                     correctCount++;
                 }
-            } else if (isFilled) {
+            } else if (isFilled && userInput !== correctHiragana) {
+                // Jawaban salah
                 inputElement.classList.add('input-incorrect');
                 artiIdElement.classList.add('hidden');
                 artiEnElement.classList.add('hidden');
                 
-                if (isCurrentlyCorrect) {
+                if (wasCorrect) {
                     inputElement.dataset.correct = 'false';
                     correctCount--;
                 }
             } else {
+                // Input kosong
                 artiIdElement.classList.add('hidden');
                 artiEnElement.classList.add('hidden');
                 
-                if (isCurrentlyCorrect) {
+                if (wasCorrect) {
                     inputElement.dataset.correct = 'false';
                     correctCount--;
                 }
             }
+            
+            // PERBAIKAN: Pastikan correctCount tidak negatif
+            if (correctCount < 0) correctCount = 0;
             
             updateCountsDisplay();
         }
@@ -1010,6 +1027,7 @@
                 input.disabled = true;
             });
 
+            // PERBAIKAN: Simpan skor user yang sebenarnya sebelum menampilkan semua jawaban
             const actualUserScore = correctCount;
 
             VOCABULARY_DATA.forEach((vocab, index) => {
@@ -1019,9 +1037,11 @@
                 const correctHiragana = normalizeString(vocab.hiragana);
                 const userInput = normalizeString(inputElement.value);
 
+                // Tampilkan semua arti
                 artiIdElement.classList.remove('hidden');
                 artiEnElement.classList.remove('hidden');
                 
+                // PERBAIKAN: Hanya ubah jawaban yang salah atau kosong
                 if (userInput !== correctHiragana || inputElement.value.trim() === '') {
                     inputElement.value = vocab.hiragana;
                     inputElement.classList.remove('input-correct', 'input-incorrect');
@@ -1033,7 +1053,9 @@
                 inputElement.dataset.correct = 'completed';
             });
 
+            // PERBAIKAN: Tampilkan notifikasi dengan skor yang benar
             isComplete = true;
+            isQuizStarted = true;
             showCompletionNotification(actualUserScore);
             
             document.getElementById('correct-count-display').textContent = actualUserScore;
@@ -1044,11 +1066,14 @@
         }
 
         function renderQuiz() {
+            // PERBAIKAN: Reset semua state
             VOCABULARY_DATA = [...MASTER_VOCABULARY_DATA];
             shuffleArray(VOCABULARY_DATA);
             totalCount = VOCABULARY_DATA.length;
             correctCount = 0;
             emptyCount = totalCount;
+            isQuizStarted = false; // PERBAIKAN: Reset flag
+            isComplete = false;
             
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
@@ -1095,7 +1120,9 @@
         function resetQuiz() {
             renderQuiz();
             
+            // PERBAIKAN: Reset semua state dengan benar
             isComplete = false;
+            isQuizStarted = false;
             document.getElementById('completion-notification').classList.add('hidden');
             
             const actionButton = document.getElementById('action-button');
